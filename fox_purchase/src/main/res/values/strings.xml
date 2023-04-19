@@ -1,0 +1,36 @@
+<resources>
+    <string name="limited_time_offer">for a lifetime</string>
+    <string name="continue_limited_version">Continue limited version</string>
+    <string name="term_of_use"><u>Term of use</u></string>
+    <string name="privacy_policy"><u>Privacy policy</u></string>
+    <string name="policy_text">- Payment will be charged to Google Account at confirmation of purchase.\n- Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of current period.\n- Account will be charged for renewal within 24-hours prior to the end of current period after confirmation of purchase.\n- Subscription may be managed by the user and auto-renewal may be turned off by going to the user\'s Account Settings after purchase.\n- Any unused portion of free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.</string>
+    <string name="remove_all_ads">Remove all ads</string>
+    <string name="life_time">Lifetime</string>
+    <string name="continue_str">Continue</string>
+    <string name="please_login_google_play_to_continue">Waiting google account connected.</string>
+
+    <string name="info_inapp_1">Premium account</string>
+    <string name="info_inapp_2">Remove all ads</string>
+    <string name="info_inapp_3">Unlock all feature</string>
+
+    <string name="premium_upgrade">Premium Upgrade</string>
+    <string name="free_trial_name">%s Days Free Trial</string>
+    <string name="free_trial_desc">then %s/%s, cancel anytime</string>
+
+    <string name="most_popular">BEST CHOICE</string>
+
+    <string name="onetime">Onetime</string>
+    <string name="weak">weak</string>
+    <string name="month">month</string>
+    <string name="year">year</string>
+    <string name="weakly">Weakly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yealy">Yearly</string>
+
+    <string name="save10">Save 10%</string>
+
+
+
+
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Title</string>
+    <string name="message">Message</string>
+    <string name="enter_here">Enter here</string>
+
+    <string name="permission_prompt_button_cancel">Cancel</string>
+    <string name="permission_prompt_button_setting">Go to Settings</string>
+    <string name="permission_failed_title">Permission not allow</string>
+    <string name="permission_failed_message">Permission not allow. Please go to setting to allow it to continue</string>
+</resources>

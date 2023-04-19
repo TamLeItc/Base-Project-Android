@@ -1,0 +1,25 @@
+<resources>
+    <string name="loading">Loading</string>
+    <string name="permission_prompt_button_cancel">Cancel</string>
+    <string name="permission_prompt_button_setting">Go to Settings</string>
+    <string name="permission_failed_title">Permission not allow</string>
+    <string name="permission_failed_message">Permission not allow. Please go to setting to allow it to continue</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Title</string>
+    <string name="message">Message</string>
+    <string name="failure">Failure</string>
+    <string name="general_failure_message">An error occurred, please try again later.</string>
+    <string name="no_network_failure_title">No internet connection</string>
+    <string name="no_network_failure_message">Please check your connection again and try again later.</string>
+    <string name="new_version_available">New version available</string>
+    <string name="update_now">Update now</string>
+    <string name="please_upgrade_to_android_5_or_later_to_continue">Please upgrade to android 5 or later to continue.</string>
+    <string name="share_app">Share app</string>
+    <string name="new_version_title">New app version now available in store</string>
+    <string name="new_version_message">Please update the app to the new version for the best experience!</string>
+    <string name="app_suspend_title">App has been suspended in store</string>
+    <string name="app_suspend_message">Please download the new version of the app for the best experience</string>
+    <string name="enter_here">Enter here</string>
+    <string name="empty_results">Empty results</string>
+</resources>

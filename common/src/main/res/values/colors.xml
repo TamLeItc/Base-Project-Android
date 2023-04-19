@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f8f8f8</color>
+    <color name="colorPrimaryDark">#f8f8f8</color>
+    <color name="colorAccent">#4CAF50</color>
+
+    <color name="colorBackgroundPrimary">#f8f8f8</color>
+
+    <color name="colorTextDark">#333333</color>
+    <color name="colorTextLight">#ffffff</color>
+
+    <color name="transparent">#00ffffff</color>
+
+    <color name="green">#4CAF50</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#AFAFAF</color>
+
+    <color name="black">#000000</color>
+    <color name="black60">#99000000</color>
+
+    <color name="colorActionCancel">#AFAFAF</color>
+    <color name="colorActionConfirm">#4CAF50</color>
+    <color name="colorActionDestructive">#F44336</color>
+</resources>

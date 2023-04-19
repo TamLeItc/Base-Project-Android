@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/_20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_dialog_alert"
+        android:paddingLeft="@dimen/_20dp"
+        android:paddingTop="@dimen/_20dp"
+        android:paddingEnd="@dimen/_20dp"
+        android:paddingBottom="@dimen/_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/title"
+            android:textColor="@color/colorTextDark"
+            android:textSize="@dimen/_18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="left"
+            android:text="@string/message"
+            android:textSize="@dimen/_15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <EditText
+            android:id="@+id/edtInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:hint="@string/enter_here"
+            android:textSize="@dimen/_18dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMessage" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtInput">
+
+            <Button
+                android:id="@+id/btnLeft"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/_15dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18dp" />
+
+            <Button
+                android:id="@+id/btnRight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_15dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:text="@string/ok"
+                android:textAllCaps="false"
+                android:textColor="@color/green"
+                android:textSize="@dimen/_18dp" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
