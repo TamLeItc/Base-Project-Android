@@ -7,17 +7,17 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.markodevcic.peko.ActivityRotatingException
+import fxc.dev.base.constants.Transaction
 import fxc.dev.base.extensions.applyTransitionIn
 import fxc.dev.base.extensions.applyTransitionOut
 import fxc.dev.common.bus.BusProvider
-import fxc.dev.base.constants.Transaction
-import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.widgets.dialog.loading.LoadingDialog
 import fxc.dev.common.wrapper.AppContextWrapper
 import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.constants.BannerSize
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -35,13 +35,12 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
 
     val mainJob = Job()
     override val coroutineContext: CoroutineContext
-        get() = dispatchers.main + mainJob
+        get() = Dispatchers.Main + mainJob
 
     abstract val viewModel: VM
     abstract val transaction: Transaction
 
     protected val adsHelper: AdsHelper by inject()
-    protected val dispatchers: CoroutineDispatchers by inject()
     protected val bus: BusProvider by inject()
     protected val appContextWrapper: AppContextWrapper by inject()
 

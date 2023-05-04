@@ -1,6 +1,5 @@
 package fxc.dev.core.data.repository
 
-import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.core.data.source.local.LocalDataDao
 import fxc.dev.core.domain.model.Post
 import fxc.dev.core.domain.repository.LocalRepository
@@ -14,12 +13,12 @@ import kotlinx.coroutines.flow.flowOn
 
 class LocalRepositoryImp
 constructor(
-    private val dispatchers: CoroutineDispatchers,
     private val localDataDao: LocalDataDao
 ) : LocalRepository {
+
     override fun getPost(): Flow<List<Post>> {
         return localDataDao.getPosts()
-            .flowOn(dispatchers.io)
+            .flowOn(Dispatchers.IO)
     }
 
     override fun insertPost(post: Post) {

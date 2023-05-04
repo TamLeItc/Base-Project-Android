@@ -11,5 +11,5 @@ import fxc.dev.core.domain.model.Post
  */
 interface RemoteRepository {
     fun getPost(): Flow<List<Post>>
-    fun getAppConfigs(appId: String): Flow<AppConfig>
+    fun getAppConfigs(url: String): Flow<AppConfig>
 }

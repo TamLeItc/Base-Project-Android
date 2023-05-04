@@ -19,6 +19,8 @@ class LoadingDialog: DialogFragment() {
 
     private lateinit var binding: DialogLoadingBinding
 
+    var isShowed = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +52,15 @@ class LoadingDialog: DialogFragment() {
         manager.beginTransaction()
             .add(this, tag)
             .commitAllowingStateLoss()
+
+        isShowed = true
+    }
+
+    override fun dismiss() {
+        if (isShowed) {
+            super.dismiss()
+            isShowed = false
+        }
     }
 
     fun show(frgManager: FragmentManager) {

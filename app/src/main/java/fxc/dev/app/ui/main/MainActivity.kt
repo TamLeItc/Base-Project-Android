@@ -2,13 +2,22 @@ package fxc.dev.app.ui.main
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import fxc.dev.app.R
 import fxc.dev.base.core.BaseActivity
 import fxc.dev.app.databinding.ActivityMainBinding
+import fxc.dev.app.utils.AppUtils
 import fxc.dev.base.constants.Transaction
+import fxc.dev.common.widgets.dialog.alert.TAlertAction
+import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
+import fxc.dev.common.widgets.dialog.alert.TAlertDialog
+import fxc.dev.core.domain.model.AppConfig
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 /**
  *
@@ -24,7 +33,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     override fun getVB(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
-        showLoading(true)
+        viewModel.fetchAppConfigs()
     }
 
     override fun initViews() {
@@ -36,7 +45,60 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     }
 
     override fun bindViewModel() {
+        viewModel.appConfigState
+            .onEach {
+                when (it) {
+                    AppConfigState.Init -> {}
 
+                    AppConfigState.Start -> {
+                        showLoading(true)
+                    }
+
+                    is AppConfigState.Success -> {
+                        showLoading(false)
+                        if (it.appConfig.isSuspend) {
+                            showDialogAppSuspend(it.appConfig)
+                        } else {
+                            showDialogRequireUpdate(it.appConfig.requireUpdate)
+                        }
+                    }
+
+                    AppConfigState.Failure -> {
+                        showLoading(false)
+                    }
+                }
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun showDialogRequireUpdate(isRequire: Boolean) {
+        val builder = TAlertDialog.Builder(this)
+            .setCancelAble(!isRequire)
+            .setTitle(R.string.new_version_title)
+            .setMessage(R.string.new_version_message)
+            .setRightAction(TAlertAction(getString(R.string.ok), TAlertActionStyle.CONFIRM) {
+                AppUtils.gotoAppInGooglePlay(this)
+            })
+
+        if (!isRequire) {
+            builder.setLeftAction(
+                TAlertAction(
+                    getString(R.string.cancel),
+                    TAlertActionStyle.CANCEL
+                )
+            )
+        }
+
+        builder.build().show(supportFragmentManager)
+    }
+
+    private fun showDialogAppSuspend(appConfig: AppConfig) {
+        TAlertDialog.Builder(this)
+            .setCancelAble(false)
+            .setTitle(R.string.app_suspend_title)
+            .setMessage(R.string.app_suspend_message)
+            .setRightAction(TAlertAction(getString(R.string.ok), TAlertActionStyle.CONFIRM) {
+                this.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(appConfig.newApp)))
+            }).build().show(supportFragmentManager)
     }
 
     companion object {

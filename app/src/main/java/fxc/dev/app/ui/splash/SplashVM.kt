@@ -7,6 +7,7 @@ import fxc.dev.common.extension.interval
 import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -30,7 +31,7 @@ class SplashVM : BaseVM() {
     private val lifecycleManager: LifecycleManager by inject()
 
     private var job: Job? = null
-    private val mainScope = CoroutineScope(dispatchers.main)
+    private val mainScope = CoroutineScope(Dispatchers.Main)
 
     private var openAdsListener: AppOpenAdHelper.AppOpenAdListener? = object :
         AppOpenAdHelper.AppOpenAdListener {

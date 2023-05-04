@@ -1,6 +1,5 @@
 package fxc.dev.core.data.repository
 
-import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.core.domain.model.AppConfig
 import fxc.dev.core.domain.model.Post
 import fxc.dev.core.domain.repository.RemoteRepository
@@ -16,15 +15,14 @@ import fxc.dev.core.data.source.remote.ApiService
 
 class RemoteRepositoryImp
 constructor(
-    private val apiService: ApiService,
-    private val dispatchers: CoroutineDispatchers,
+    private val apiService: ApiService
 ) : RemoteRepository {
 
     override fun getPost(): Flow<List<Post>> = flow {
         emit(apiService.getPost())
-    }.flowOn(dispatchers.io)
+    }.flowOn(Dispatchers.IO)
 
-    override fun getAppConfigs(appId: String): Flow<AppConfig> = flow {
-        emit(apiService.getAppConfigs(appId))
-    }.flowOn(dispatchers.io)
+    override fun getAppConfigs(url: String): Flow<AppConfig> = flow {
+        emit(apiService.getAppConfigs(url = url))
+    }.flowOn(Dispatchers.IO)
 }

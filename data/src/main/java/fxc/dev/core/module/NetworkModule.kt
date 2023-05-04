@@ -7,6 +7,7 @@ import fxc.dev.core.utils.AuthInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -20,11 +21,10 @@ private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 private const val NETWORK_TIMEOUT = 30L
 
 val networkModule = module {
-    factory { AuthInterceptor() }
-    factory { GsonConverterFactory.create() }
-    factory { provideLoggingInterceptor() }
-    factory { provideOkHttpClient(get(), get(), get()) }
-    single { provideService<ApiService>(BASE_URL, get(), get()) }
+    single { AuthInterceptor() }
+    singleOf(::provideOkHttpClient )
+    singleOf(::provideLoggingInterceptor)
+    single { provideService<ApiService>(BASE_URL, get()) }
 }
 
 private fun provideOkHttpClient(
@@ -38,9 +38,9 @@ private fun provideOkHttpClient(
         .addInterceptor(loggingInterceptor)
         .addNetworkInterceptor(authInterceptor)
         .callTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
-        .connectTimeout(NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
-        .writeTimeout(NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
-        .readTimeout(NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
+        .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+        .writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+        .readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
     return builder.build()
 }
 
@@ -53,13 +53,12 @@ private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
 
 private inline fun <reified T> provideService(
     baseUrl: String,
-    okHttpClient: OkHttpClient,
-    converterFactory: Converter.Factory
+    okHttpClient: OkHttpClient
 ): T {
     return Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
-        .addConverterFactory(converterFactory)
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(T::class.java)
 }

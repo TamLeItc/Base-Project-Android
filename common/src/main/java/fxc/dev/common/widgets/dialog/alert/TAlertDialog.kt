@@ -1,5 +1,6 @@
 package fxc.dev.common.widgets.dialog.alert
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -47,22 +48,31 @@ class TAlertDialog() : DialogFragment() {
         rightAction = builder.getRightAction()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DialogCustomAlertBinding.inflate(inflater, container, false)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = object : Dialog(requireActivity()) {
+            override fun onBackPressed() {
+                dismiss()
+            }
+        }
 
-        dialog!!.setCancelable(cancelAble)
+        dialog.setCancelable(cancelAble)
 
-        val window: Window? = dialog!!.window
+        val window: Window? = dialog.window
         window?.setGravity(gravity)
 
         val params: WindowManager.LayoutParams? = window?.attributes
         window?.attributes = params
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        return dialog
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DialogCustomAlertBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -90,61 +100,59 @@ class TAlertDialog() : DialogFragment() {
         show(frgManager, "AlertDialog")
     }
 
-    private fun setupViews() {
+    private fun setupViews() = binding.run {
 
         if (leftAction == null) {
-            binding.btnLeft.visibility = View.GONE
+            btnLeft.visibility = View.GONE
         } else {
             when (leftAction!!.style) {
                 TAlertActionStyle.CANCEL -> {
-                    binding.btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionCancel))
+                    btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionCancel))
                 }
                 TAlertActionStyle.CONFIRM -> {
-                    binding.btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionConfirm))
+                    btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionConfirm))
                 }
                 TAlertActionStyle.DESTRUCTIVE -> {
-                    binding.btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionDestructive))
+                    btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionDestructive))
                 }
             }
         }
 
         if (rightAction == null) {
-            binding.btnRight.visibility = View.GONE
+            btnRight.visibility = View.GONE
         } else {
             when (rightAction!!.style) {
                 TAlertActionStyle.CANCEL -> {
-                    binding.btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionCancel))
+                    btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionCancel))
                 }
                 TAlertActionStyle.CONFIRM -> {
-                    binding.btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionConfirm))
+                    btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionConfirm))
                 }
                 TAlertActionStyle.DESTRUCTIVE -> {
-                    binding.btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionDestructive))
+                    btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionDestructive))
                 }
             }
         }
 
         if (showInput) {
-            binding.edtInput.visible()
+            edtInput.visible()
         } else {
-            binding.edtInput.gone()
+            edtInput.gone()
         }
 
-        with(binding) {
-            tvTitle.text = title
-            tvMessage.text = message
-            btnLeft.text = leftAction?.title
-            btnRight.text = rightAction?.title
-        }
+        tvTitle.text = title
+        tvMessage.text = message
+        btnLeft.text = leftAction?.title
+        btnRight.text = rightAction?.title
 
-        binding.btnLeft.setOnClickListener {
+        btnLeft.setOnClickListener {
             dismiss()
-            leftAction?.onClick?.invoke(binding.edtInput.text.toString())
+            leftAction?.onClick?.invoke(edtInput.text.toString())
         }
 
-        binding.btnRight.setOnClickListener {
+        btnRight.setOnClickListener {
             dismiss()
-            rightAction?.onClick?.invoke(binding.edtInput.text.toString())
+            rightAction?.onClick?.invoke(edtInput.text.toString())
         }
     }
 

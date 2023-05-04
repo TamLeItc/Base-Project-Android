@@ -3,6 +3,7 @@ package fxc.dev.core.data.source.remote
 import fxc.dev.core.domain.model.AppConfig
 import fxc.dev.core.domain.model.Post
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Url
 
 /**
@@ -15,7 +16,6 @@ interface ApiService {
 
     @GET
     suspend fun getAppConfigs(
-        appId: String,
-        @Url url: String = "https://adsnetwork-api.romancenovelx.com/api/v1/configs/${appId}"
+        @Url url: String
     ): AppConfig
 }
