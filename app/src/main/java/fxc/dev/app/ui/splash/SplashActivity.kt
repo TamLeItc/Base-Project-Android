@@ -50,15 +50,15 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(R.layout.ac
     }
 
     override fun bindViewModel() {
-        viewModel.querySplash
+        viewModel.launchAppState
             .onEach {
                 when (it) {
-                    SplashState.Init -> {
+                    LauncherState.Init -> {
                     }
-                    SplashState.RequireUpdateSDK -> {
+                    LauncherState.RequireUpdateSDK -> {
                         showDialogUpdateVersion()
                     }
-                    SplashState.GoToMain -> {
+                    LauncherState.GoToMain -> {
                         navigator.navigateToMain(this)
                     }
                 }

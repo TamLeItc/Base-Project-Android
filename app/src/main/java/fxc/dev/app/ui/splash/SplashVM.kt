@@ -12,6 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -26,7 +27,9 @@ import java.util.concurrent.TimeUnit
 
 class SplashVM : BaseVM() {
 
-    var querySplash: MutableStateFlow<SplashState> = MutableStateFlow(SplashState.Init)
+    private var _launchAppState: MutableStateFlow<LauncherState> = MutableStateFlow(LauncherState.Init)
+    val launchAppState: StateFlow<LauncherState>
+        get() = _launchAppState
 
     private val lifecycleManager: LifecycleManager by inject()
 
@@ -40,13 +43,13 @@ class SplashVM : BaseVM() {
         }
 
         override fun onAdClosed() {
-            querySplash.value = SplashState.GoToMain
+            _launchAppState.value = LauncherState.GoToMain
         }
     }
 
     fun fetchData() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            querySplash.value = SplashState.RequireUpdateSDK
+            _launchAppState.value = LauncherState.RequireUpdateSDK
             return
         }
 
@@ -59,20 +62,20 @@ class SplashVM : BaseVM() {
                 job = interval(delay = 1, unit = TimeUnit.SECONDS)
                     .onEach {
                         if (it >= 15) {
-                            querySplash.value = SplashState.GoToMain
+                            _launchAppState.value = LauncherState.GoToMain
                             clearJob()
                         }
                     }
                     .launchIn(mainScope)
             } else {
-                querySplash.value = SplashState.GoToMain
+                _launchAppState.value = LauncherState.GoToMain
             }
         }
     }
 
     private fun fetchOpenAds() {
         if (!AdsUtils.canShowAds()) {
-            querySplash.value = SplashState.GoToMain
+            _launchAppState.value = LauncherState.GoToMain
             clearJob()
         } else {
             adsHelper.showAppOpenAd(
@@ -90,8 +93,8 @@ class SplashVM : BaseVM() {
     }
 }
 
-sealed class SplashState {
-    object Init : SplashState()
-    object RequireUpdateSDK : SplashState()
-    object GoToMain : SplashState()
+sealed class LauncherState {
+    object Init : LauncherState()
+    object RequireUpdateSDK : LauncherState()
+    object GoToMain : LauncherState()
 }
