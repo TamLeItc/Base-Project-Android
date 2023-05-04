@@ -38,8 +38,8 @@ abstract class BaseVM protected constructor() : ViewModel(), CoroutineScope, Koi
     protected val TAG = this.javaClass.simpleName
 
     val purchaseFlow: Flow<Boolean> = BillingManager.shared.billingPurchasedS
-        .map { BillingUtils.isPremium }
-        .onStart { emit(BillingUtils.isPremium) }
+        .map { BillingUtils.canShowInApp }
+        .onStart { emit(BillingUtils.canShowInApp) }
 
     val nativeAdFlow = adsHelper.getNativeAdFlow().combine(purchaseFlow) { ads, purchased ->
         if (purchased) emptyList() else ads

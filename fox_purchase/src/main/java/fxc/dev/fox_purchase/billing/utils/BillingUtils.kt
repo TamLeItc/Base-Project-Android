@@ -9,7 +9,7 @@ import fxc.dev.common.utils.PrefUtils
  */
 
 object BillingUtils {
-    val isPremium: Boolean
+    val canShowInApp: Boolean
         get() {
             return PrefUtils.isPremium || PrefUtils.isBackDoorUsed
         }

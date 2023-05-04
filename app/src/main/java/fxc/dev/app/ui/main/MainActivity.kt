@@ -8,9 +8,7 @@ import androidx.activity.viewModels
 import fxc.dev.app.R
 import fxc.dev.base.core.BaseActivity
 import fxc.dev.app.databinding.ActivityMainBinding
-import fxc.dev.app.navigator.Navigator
-import fxc.dev.common.constants.Transaction
-import org.koin.core.component.inject
+import fxc.dev.base.constants.Transaction
 
 /**
  *

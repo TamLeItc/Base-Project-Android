@@ -19,9 +19,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.utils.AdsUtils
-import fxc.dev.fox_ads.view.FullScreenLayoutParams
+import fxc.dev.fox_ads.utils.FullScreenLayoutParams
 import fxc.dev.fox_ads.view.LoadingView
 
 /**

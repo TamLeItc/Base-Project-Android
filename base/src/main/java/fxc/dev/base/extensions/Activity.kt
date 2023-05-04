@@ -1,9 +1,8 @@
 package fxc.dev.base.extensions
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import fxc.dev.base.R
-import fxc.dev.common.constants.Transaction
+import fxc.dev.base.constants.Transaction
 
 /**
  *

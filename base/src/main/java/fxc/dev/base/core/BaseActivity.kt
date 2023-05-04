@@ -10,7 +10,7 @@ import com.markodevcic.peko.ActivityRotatingException
 import fxc.dev.base.extensions.applyTransitionIn
 import fxc.dev.base.extensions.applyTransitionOut
 import fxc.dev.common.bus.BusProvider
-import fxc.dev.common.constants.Transaction
+import fxc.dev.base.constants.Transaction
 import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.widgets.dialog.loading.LoadingDialog

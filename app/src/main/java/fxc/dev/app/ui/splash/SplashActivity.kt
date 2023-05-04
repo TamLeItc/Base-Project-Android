@@ -1,23 +1,18 @@
 package fxc.dev.app.ui.splash
 
-import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
-import android.view.animation.AnticipateInterpolator
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.animation.doOnEnd
 import androidx.lifecycle.lifecycleScope
 import fxc.dev.app.R
 import fxc.dev.app.databinding.ActivitySplashBinding
 import fxc.dev.app.navigator.Navigator
 import fxc.dev.base.core.BaseActivity
-import fxc.dev.common.constants.Transaction
+import fxc.dev.base.constants.Transaction
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.inject

@@ -4,14 +4,19 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import fxc.dev.common.R
 import fxc.dev.common.databinding.DialogCustomAlertBinding
-import fxc.dev.common.extension.getRealColor
 import fxc.dev.common.extension.gone
+import fxc.dev.common.extension.resourceColor
 import fxc.dev.common.extension.visible
 
 /**
@@ -92,13 +97,13 @@ class TAlertDialog() : DialogFragment() {
         } else {
             when (leftAction!!.style) {
                 TAlertActionStyle.CANCEL -> {
-                    binding.btnLeft.setTextColor(requireContext().getRealColor(R.color.colorActionCancel))
+                    binding.btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionCancel))
                 }
                 TAlertActionStyle.CONFIRM -> {
-                    binding.btnLeft.setTextColor(requireContext().getRealColor(R.color.colorActionConfirm))
+                    binding.btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionConfirm))
                 }
                 TAlertActionStyle.DESTRUCTIVE -> {
-                    binding.btnLeft.setTextColor(requireContext().getRealColor(R.color.colorActionDestructive))
+                    binding.btnLeft.setTextColor(requireContext().resourceColor(R.color.colorActionDestructive))
                 }
             }
         }
@@ -108,13 +113,13 @@ class TAlertDialog() : DialogFragment() {
         } else {
             when (rightAction!!.style) {
                 TAlertActionStyle.CANCEL -> {
-                    binding.btnRight.setTextColor(requireContext().getRealColor(R.color.colorActionCancel))
+                    binding.btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionCancel))
                 }
                 TAlertActionStyle.CONFIRM -> {
-                    binding.btnRight.setTextColor(requireContext().getRealColor(R.color.colorActionConfirm))
+                    binding.btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionConfirm))
                 }
                 TAlertActionStyle.DESTRUCTIVE -> {
-                    binding.btnRight.setTextColor(requireContext().getRealColor(R.color.colorActionDestructive))
+                    binding.btnRight.setTextColor(requireContext().resourceColor(R.color.colorActionDestructive))
                 }
             }
         }

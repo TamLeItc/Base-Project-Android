@@ -1,4 +1,4 @@
-package fxc.dev.fox_ads.view
+package fxc.dev.fox_ads.utils
 
 import android.graphics.PixelFormat
 import android.os.Build

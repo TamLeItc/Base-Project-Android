@@ -8,6 +8,7 @@ import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -38,21 +39,13 @@ class SplashVM : BaseVM() {
         }
 
         override fun onAdClosed() {
-            clearJob()
-            mainScope.launch {
-                delay(200)
-                querySplash.value = SplashState.GoToMain
-            }
+            querySplash.value = SplashState.GoToMain
         }
     }
 
     fun fetchData() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             querySplash.value = SplashState.RequireUpdateSDK
-            return
-        } else if (adsHelper.appOpenAd == null) {
-            querySplash.value = SplashState.GoToMain
-            clearJob()
             return
         }
 
@@ -64,7 +57,7 @@ class SplashVM : BaseVM() {
 
                 job = interval(delay = 1, unit = TimeUnit.SECONDS)
                     .onEach {
-                        if (it >= 15 && !adsHelper.appOpenAd!!.isShowingAd) {
+                        if (it >= 15) {
                             querySplash.value = SplashState.GoToMain
                             clearJob()
                         }
@@ -81,7 +74,7 @@ class SplashVM : BaseVM() {
             querySplash.value = SplashState.GoToMain
             clearJob()
         } else {
-            adsHelper.appOpenAd?.showAd(
+            adsHelper.showAppOpenAd(
                 activity = lifecycleManager.currentActivity,
                 enableShowAfterFetchAd = true,
                 listener = openAdsListener
@@ -92,6 +85,7 @@ class SplashVM : BaseVM() {
     private fun clearJob() {
         onCleared()
         job?.cancel()
+        mainScope.cancel()
     }
 }
 

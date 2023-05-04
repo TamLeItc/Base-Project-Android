@@ -7,14 +7,12 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.play.core.review.ReviewManagerFactory
 
 /**
  * Created by Tam Le on 19/11/2021.
  */
 
-fun Context.getRealColor(@ColorRes res: Int): Int {
+fun Context.resourceColor(@ColorRes res: Int): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         resources.getColor(res, theme)
     } else {
@@ -23,7 +21,7 @@ fun Context.getRealColor(@ColorRes res: Int): Int {
 }
 
 @SuppressLint("UseCompatLoadingForDrawables")
-fun Context.getRealDrawable(@DrawableRes res: Int): Drawable {
+fun Context.resourceDrawable(@DrawableRes res: Int): Drawable {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         resources.getDrawable(res, theme)
     } else {

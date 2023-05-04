@@ -18,11 +18,6 @@ import fxc.dev.common.utils.PrefUtils
 
 object AppUtils {
 
-    val isPremium: Boolean
-        get() {
-            return PrefUtils.isPremium || PrefUtils.isBackDoorUsed
-        }
-
     fun gotoAppInGooglePlay(context: Context) {
         try {
             val url = "market://details?id=${BuildConfig.APPLICATION_ID}"

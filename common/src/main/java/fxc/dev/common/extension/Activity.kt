@@ -18,7 +18,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 
 fun Activity.changeStatusStyle(@ColorRes bgColor: Int, isLightForegroundColor: Boolean) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        window.statusBarColor = getRealColor(bgColor)
+        window.statusBarColor = resourceColor(bgColor)
     }
     if (!isLightForegroundColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

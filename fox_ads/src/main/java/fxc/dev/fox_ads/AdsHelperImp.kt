@@ -22,11 +22,11 @@ class AdsHelperImp(
     val application: Application
 ) : AdsHelper {
 
-    var appOpenAd: AppOpenAdHelper? = null
-    var bannerAd: BannerAdHelper? = null
-    var rewardedAd: RewardedAdHelper? = null
-    var interstitialAd: InterstitialAdHelper? = null
-    var nativeAd: NativeAdHelper? = null
+    private var appOpenAd: AppOpenAdHelper? = null
+    private var bannerAd: BannerAdHelper? = null
+    private var rewardedAd: RewardedAdHelper? = null
+    private var interstitialAd: InterstitialAdHelper? = null
+    private var nativeAd: NativeAdHelper? = null
 
     private var timeSafeDelayClick = 1000L
     private var lastHandleShowAds = 0L
@@ -89,6 +89,10 @@ class AdsHelperImp(
         listener: AppOpenAdHelper.AppOpenAdListener?
     ) {
         if (interstitialAd?.isIntersShow == true) {
+            return
+        }
+        if (appOpenAd == null) {
+            listener?.onAdClosed()
             return
         }
         appOpenAd?.showAd(

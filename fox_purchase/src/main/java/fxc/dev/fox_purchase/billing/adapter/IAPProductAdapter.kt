@@ -8,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import fxc.dev.fox_purchase.billing.model.IAPProduct
-import fxc.dev.common.extension.getRealColor
+import fxc.dev.common.extension.resourceColor
 import fxc.dev.fox_purchase.R
 import fxc.dev.fox_purchase.billing.model.IAPProductType
 import fxc.dev.fox_purchase.billing.utils.BillingManager
@@ -58,17 +58,17 @@ class IAPProductAdapter(
                 }
 
                 if (isItemSelected) {
-                    binding.tvProductName.setTextColor(context.getRealColor(R.color.white))
-                    binding.tvProductDes.setTextColor(context.getRealColor(R.color.white))
-                    binding.tvProductPrice.setTextColor(context.getRealColor(R.color.white))
-                    binding.tvFreeTrial.setTextColor(context.getRealColor(R.color.white))
-                    binding.tvFreeDesc.setTextColor(context.getRealColor(R.color.white))
+                    binding.tvProductName.setTextColor(context.resourceColor(R.color.white))
+                    binding.tvProductDes.setTextColor(context.resourceColor(R.color.white))
+                    binding.tvProductPrice.setTextColor(context.resourceColor(R.color.white))
+                    binding.tvFreeTrial.setTextColor(context.resourceColor(R.color.white))
+                    binding.tvFreeDesc.setTextColor(context.resourceColor(R.color.white))
                 } else {
-                    binding.tvProductName.setTextColor(context.getRealColor(R.color.inappColorTextPrimary))
-                    binding.tvProductDes.setTextColor(context.getRealColor(R.color.inappColorTextPrimary))
-                    binding.tvProductPrice.setTextColor(context.getRealColor(R.color.inappColorTextPrimary))
-                    binding.tvFreeTrial.setTextColor(context.getRealColor(R.color.inappColorTextPrimary))
-                    binding.tvFreeDesc.setTextColor(context.getRealColor(R.color.inappColorTextPrimary))
+                    binding.tvProductName.setTextColor(context.resourceColor(R.color.inappColorTextPrimary))
+                    binding.tvProductDes.setTextColor(context.resourceColor(R.color.inappColorTextPrimary))
+                    binding.tvProductPrice.setTextColor(context.resourceColor(R.color.inappColorTextPrimary))
+                    binding.tvFreeTrial.setTextColor(context.resourceColor(R.color.inappColorTextPrimary))
+                    binding.tvFreeDesc.setTextColor(context.resourceColor(R.color.inappColorTextPrimary))
                 }
 
                 binding.tvProductDes.run {
