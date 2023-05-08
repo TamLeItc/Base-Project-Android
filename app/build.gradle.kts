@@ -33,6 +33,7 @@ dependencies {
     viewBindingDependencies()
     glideDependencies()
     billingDependencies()
+    firebaseConfigDependencies()
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
@@ -48,11 +49,6 @@ dependencies {
     implementation(Dependencies.View.constraintLayout)
     implementation(Dependencies.View.recyclerView)
     implementation(Dependencies.View.recyclerViewSelection)
-
-    implementation(platform(Dependencies.Firebase.bom))
-    implementation(Dependencies.Firebase.analytics)
-    implementation(Dependencies.Firebase.crashlytics)
-    implementation(Dependencies.Firebase.configKtx)
 
     implementation(Dependencies.More.prefKtx)
     implementation(Dependencies.More.prefSupport)

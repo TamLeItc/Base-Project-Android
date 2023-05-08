@@ -69,7 +69,7 @@ class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(R.layout.ac
         showExitDialog(
             this,
             getString(R.string.new_version_available),
-            getString(R.string.please_upgrade_to_android_5_or_later_to_continue),
+            getString(R.string.minimum_android_sdk_require_message),
             getString(R.string.ok)
         )
     }

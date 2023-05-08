@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.retry
 
 /**
  *
@@ -30,6 +31,7 @@ class MainVM : BaseVM() {
         remoteRepository.getAppConfigs(url)
             .map { AppConfigState.Success(it) as AppConfigState }
             .onStart { emit(AppConfigState.Start) }
+            .retry(retries = 2)
             .catch { emit(AppConfigState.Failure) }
             .onEach {
                 _appConfigState.emit(it)

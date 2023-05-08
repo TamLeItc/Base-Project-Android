@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.markodevcic.peko.ActivityRotatingException
 import fxc.dev.common.bus.BusProvider
+import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.wrapper.AppContextWrapper
 import kotlinx.coroutines.CoroutineScope
@@ -29,10 +30,11 @@ protected constructor() : Fragment(), CoroutineScope, BaseComponent<VB>, KoinCom
 
     val mainJob = Job()
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + mainJob
+        get() = dispatchers.main + mainJob
 
     abstract val viewModel: VM
 
+    protected val dispatchers: CoroutineDispatchers by inject()
     protected val bus: BusProvider by inject()
     protected val appContextWrapper: AppContextWrapper by inject()
 

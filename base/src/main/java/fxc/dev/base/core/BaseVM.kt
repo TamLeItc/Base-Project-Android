@@ -1,6 +1,7 @@
 package fxc.dev.base.core
 
 import androidx.lifecycle.ViewModel
+import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.core.domain.repository.LocalRepository
 import fxc.dev.core.domain.repository.RemoteRepository
 import fxc.dev.fox_ads.AdsHelperImp
@@ -27,10 +28,10 @@ abstract class BaseVM protected constructor() : ViewModel(), CoroutineScope, Koi
 
     val jobVM: Job = Job()
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.IO + jobVM
+        get() = dispatchers.io + jobVM
 
+    protected val dispatchers: CoroutineDispatchers by inject()
     protected val adsHelper: AdsHelperImp by inject()
-
     protected val remoteRepository: RemoteRepository by inject()
     protected val localRepository: LocalRepository by inject()
 

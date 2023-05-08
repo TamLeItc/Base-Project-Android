@@ -34,12 +34,12 @@ class SplashVM : BaseVM() {
     private val lifecycleManager: LifecycleManager by inject()
 
     private var job: Job? = null
-    private val mainScope = CoroutineScope(Dispatchers.Main)
+    private val mainScope = CoroutineScope(dispatchers.main)
 
     private var openAdsListener: AppOpenAdHelper.AppOpenAdListener? = object :
         AppOpenAdHelper.AppOpenAdListener {
         override fun onAdShowed() {
-            clearJob()
+            onCleared()
         }
 
         override fun onAdClosed() {
@@ -63,7 +63,7 @@ class SplashVM : BaseVM() {
                     .onEach {
                         if (it >= 15) {
                             _launchAppState.value = LauncherState.GoToMain
-                            clearJob()
+                            onCleared()
                         }
                     }
                     .launchIn(mainScope)
@@ -76,7 +76,7 @@ class SplashVM : BaseVM() {
     private fun fetchOpenAds() {
         if (!AdsUtils.canShowAds()) {
             _launchAppState.value = LauncherState.GoToMain
-            clearJob()
+            onCleared()
         } else {
             adsHelper.showAppOpenAd(
                 activity = lifecycleManager.currentActivity,
@@ -86,8 +86,8 @@ class SplashVM : BaseVM() {
         }
     }
 
-    private fun clearJob() {
-        onCleared()
+    override fun onCleared() {
+        super.onCleared()
         job?.cancel()
         mainScope.cancel()
     }

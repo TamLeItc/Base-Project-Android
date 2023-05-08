@@ -14,7 +14,7 @@
     <string name="no_network_failure_message">Please check your connection again and try again later.</string>
     <string name="new_version_available">New version available</string>
     <string name="update_now">Update now</string>
-    <string name="please_upgrade_to_android_5_or_later_to_continue">Please upgrade to android 5 or later to continue.</string>
+    <string name="minimum_android_sdk_require_message">Please upgrade to android 7 or later to continue.</string>
     <string name="share_app">Share app</string>
     <string name="new_version_title">New app version now available in store</string>
     <string name="new_version_message">Please update the app to the new version for the best experience!</string>

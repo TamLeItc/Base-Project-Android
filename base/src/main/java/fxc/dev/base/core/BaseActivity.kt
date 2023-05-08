@@ -11,6 +11,7 @@ import fxc.dev.base.constants.Transaction
 import fxc.dev.base.extensions.applyTransitionIn
 import fxc.dev.base.extensions.applyTransitionOut
 import fxc.dev.common.bus.BusProvider
+import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.widgets.dialog.loading.LoadingDialog
 import fxc.dev.common.wrapper.AppContextWrapper
@@ -35,11 +36,12 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
 
     val mainJob = Job()
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + mainJob
+        get() = dispatchers.main + mainJob
 
     abstract val viewModel: VM
     abstract val transaction: Transaction
 
+    protected val dispatchers: CoroutineDispatchers by inject()
     protected val adsHelper: AdsHelper by inject()
     protected val bus: BusProvider by inject()
     protected val appContextWrapper: AppContextWrapper by inject()
