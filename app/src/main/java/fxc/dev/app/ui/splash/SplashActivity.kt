@@ -12,7 +12,7 @@ import fxc.dev.app.R
 import fxc.dev.app.databinding.ActivitySplashBinding
 import fxc.dev.app.navigator.Navigator
 import fxc.dev.base.core.BaseActivity
-import fxc.dev.base.constants.Transaction
+import fxc.dev.base.constants.Transition
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.inject
@@ -26,8 +26,8 @@ import org.koin.core.component.inject
 class SplashActivity : BaseActivity<SplashVM, ActivitySplashBinding>(R.layout.activity_splash) {
 
     override val viewModel: SplashVM by viewModels()
-    override val transaction: Transaction
-        get() = Transaction.NONE
+    override val transition: Transition
+        get() = Transition.NONE
 
     private val navigator: Navigator by inject()
 

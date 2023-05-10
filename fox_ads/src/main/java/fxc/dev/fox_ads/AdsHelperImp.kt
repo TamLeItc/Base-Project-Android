@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.nativead.NativeAd
+import fxc.dev.common.extension.gone
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.fox_ads.admob_ads.*
 import kotlinx.coroutines.flow.*
@@ -59,7 +60,7 @@ class AdsHelperImp(
         onAdFailedToLoad: (() -> Unit)?
     ) {
         if (!AdsUtils.canShowAds()) {
-            viewParent.visibility = View.GONE
+            viewParent.gone()
             return
         }
         bannerAd?.addBanner(

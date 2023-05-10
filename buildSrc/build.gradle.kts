@@ -29,4 +29,6 @@ dependencies {
     implementation(kotlin("gradle-plugin", version = "1.8.10"))
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3")
     implementation("com.android.tools.build:gradle:7.4.2")
+    implementation("com.google.gms:google-services:4.3.15")
+    implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.5")
 }

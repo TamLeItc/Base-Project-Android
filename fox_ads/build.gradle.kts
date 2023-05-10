@@ -14,6 +14,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":fox_purchase"))
 
     kotlinDependencies()
     viewBindingDependencies()

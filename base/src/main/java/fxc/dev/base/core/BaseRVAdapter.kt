@@ -27,6 +27,12 @@ abstract class BaseListAdapter<Item : Any>(
         const val ITEM = 100
     }
 
+    var data: MutableList<Item> = mutableListOf()
+
+    init {
+        this.data.addAll(data)
+    }
+
     abstract fun onCreateVH(parent: ViewGroup, viewType: Int): ItemVH
 
     abstract fun onBindVH(holder: ItemVH, position: Int)
@@ -36,6 +42,7 @@ abstract class BaseListAdapter<Item : Any>(
             getItem(position) is NativeAd -> {
                 adType.value
             }
+
             else -> {
                 ITEM
             }
@@ -50,6 +57,7 @@ abstract class BaseListAdapter<Item : Any>(
                     currentItem
                 )
             }
+
             else -> {
                 onBindVH((holder as ItemVH), position)
             }
@@ -64,21 +72,49 @@ abstract class BaseListAdapter<Item : Any>(
                         .inflate(fxc.dev.fox_ads.R.layout.item_ad_small, parent, false)
                 )
             }
+
             NativeAdType.MEDIUM.value -> {
                 AdsVH(
                     LayoutInflater.from(parent.context)
                         .inflate(fxc.dev.fox_ads.R.layout.item_ad_medium, parent, false)
                 )
             }
+
             NativeAdType.NONE.value -> {
                 throw Error("Unknown type")
             }
+
             else -> {
                 onCreateVH(parent, viewType)
             }
         }
 
-    override fun getItemCount() = currentList.size
+    override fun getItemCount() = data.size
+
+    override fun getItem(position: Int): Item {
+        return data[position]
+    }
+
+    fun resetData() {
+        this.data.clear()
+        notifyDataSetChanged()
+    }
+
+    fun updateData(list: List<Item>) {
+        this.data.clear()
+        this.data.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun appendData(list: List<Item>) {
+        this.data.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun updateItem(position: Int, item: Item) {
+        data[position] = item
+        notifyItemChanged(position)
+    }
 
     inner class AdsVH(val view: View) : RecyclerView.ViewHolder(view)
 

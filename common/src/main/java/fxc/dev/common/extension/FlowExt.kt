@@ -83,6 +83,10 @@ public fun <A, B, R> Flow<A>.withLatestFrom(
     }
 }
 
+public fun <T> Flow<List<T>>.filterNotEmpty(): Flow<List<T>> = transform { value ->
+    if (value.isNotEmpty()) return@transform emit(value)
+}
+
 @Suppress("NOTHING_TO_INLINE")
 public inline fun <A, B> Flow<A>.withLatestFrom(other: Flow<B>): Flow<Pair<A, B>> =
     withLatestFrom(other) { a, b -> a to b }

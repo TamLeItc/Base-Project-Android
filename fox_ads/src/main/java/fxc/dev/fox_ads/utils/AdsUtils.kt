@@ -1,6 +1,6 @@
 package fxc.dev.fox_ads.utils
 
-import fxc.dev.common.utils.PrefUtils
+import fxc.dev.fox_purchase.utils.PurchaseUtils
 
 /**
  *
@@ -9,6 +9,5 @@ import fxc.dev.common.utils.PrefUtils
  */
 
 object AdsUtils {
-    fun canShowAds(): Boolean =
-        !PrefUtils.isPremium && !PrefUtils.isBackDoorUsed
+    fun canShowAds(): Boolean = !PurchaseUtils.isPremium
 }

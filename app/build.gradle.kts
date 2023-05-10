@@ -5,6 +5,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -34,6 +36,7 @@ dependencies {
     glideDependencies()
     billingDependencies()
     firebaseConfigDependencies()
+    eventTrackingDependencies()
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 

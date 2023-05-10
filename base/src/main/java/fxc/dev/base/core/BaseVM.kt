@@ -5,11 +5,11 @@ import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.core.domain.repository.LocalRepository
 import fxc.dev.core.domain.repository.RemoteRepository
 import fxc.dev.fox_ads.AdsHelperImp
-import fxc.dev.fox_purchase.billing.utils.BillingManager
-import fxc.dev.fox_purchase.billing.utils.BillingUtils
+import fxc.dev.fox_purchase.manager.PurchaseManager
+import fxc.dev.fox_purchase.utils.PurchaseUtils
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -26,27 +26,26 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseVM protected constructor() : ViewModel(), CoroutineScope, KoinComponent {
 
-    val jobVM: Job = Job()
     override val coroutineContext: CoroutineContext
-        get() = dispatchers.io + jobVM
+        get() = dispatchers.io + SupervisorJob()
 
     protected val dispatchers: CoroutineDispatchers by inject()
     protected val adsHelper: AdsHelperImp by inject()
     protected val remoteRepository: RemoteRepository by inject()
     protected val localRepository: LocalRepository by inject()
+    protected val purchaseManager: PurchaseManager by inject()
 
     protected val TAG = this.javaClass.simpleName
 
-    val purchaseFlow: Flow<Boolean> = BillingManager.shared.billingPurchasedS
-        .map { BillingUtils.canShowInApp }
-        .onStart { emit(BillingUtils.canShowInApp) }
+    val purchasedFlow: Flow<Boolean> =
+        purchaseManager.getPurchasedListState()
+            .map { it.isNotEmpty() }
+            .map { PurchaseUtils.isPremium }
+            .onStart { emit(PurchaseUtils.isPremium) }
 
-    val nativeAdFlow = adsHelper.getNativeAdFlow().combine(purchaseFlow) { ads, purchased ->
-        if (purchased) emptyList() else ads
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        jobVM.cancel()
-    }
+    val nativeAdFlow =
+        adsHelper.getNativeAdFlow()
+            .combine(purchasedFlow) { ads, purchased ->
+                if (purchased) emptyList() else ads
+            }
 }

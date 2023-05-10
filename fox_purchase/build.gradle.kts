@@ -1,4 +1,7 @@
 import plugins.billingDependencies
+import plugins.eventTrackingDependencies
+import plugins.firebaseConfigDependencies
+import plugins.injectionDependencies
 import plugins.kotlinDependencies
 import plugins.lifecycleDependencies
 
@@ -17,6 +20,8 @@ dependencies {
     kotlinDependencies()
     lifecycleDependencies()
     billingDependencies()
+    firebaseConfigDependencies()
+    injectionDependencies()
 
     implementation(Dependencies.AndroidX.appCompat)
 

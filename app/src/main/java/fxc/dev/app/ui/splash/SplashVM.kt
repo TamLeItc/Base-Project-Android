@@ -1,18 +1,17 @@
 package fxc.dev.app.ui.splash
 
 import android.os.Build
-import fxc.dev.app.lifecycle.LifecycleManager
+import fxc.dev.app.helper.LifecycleManager
 import fxc.dev.base.core.BaseVM
 import fxc.dev.common.extension.interval
 import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -28,8 +27,7 @@ import java.util.concurrent.TimeUnit
 class SplashVM : BaseVM() {
 
     private var _launchAppState: MutableStateFlow<LauncherState> = MutableStateFlow(LauncherState.Init)
-    val launchAppState: StateFlow<LauncherState>
-        get() = _launchAppState
+    val launchAppState  = _launchAppState.asStateFlow()
 
     private val lifecycleManager: LifecycleManager by inject()
 
@@ -58,15 +56,7 @@ class SplashVM : BaseVM() {
 
             if (AdsUtils.canShowAds()) {
                 fetchOpenAds()
-
-                job = interval(delay = 1, unit = TimeUnit.SECONDS)
-                    .onEach {
-                        if (it >= 15) {
-                            _launchAppState.value = LauncherState.GoToMain
-                            onCleared()
-                        }
-                    }
-                    .launchIn(mainScope)
+                startWaitingTimer()
             } else {
                 _launchAppState.value = LauncherState.GoToMain
             }
@@ -84,6 +74,17 @@ class SplashVM : BaseVM() {
                 listener = openAdsListener
             )
         }
+    }
+
+    private fun startWaitingTimer() {
+        job = interval(delay = 1, unit = TimeUnit.SECONDS)
+            .onEach {
+                if (it >= 15) {
+                    _launchAppState.value = LauncherState.GoToMain
+                    onCleared()
+                }
+            }
+            .launchIn(mainScope)
     }
 
     override fun onCleared() {

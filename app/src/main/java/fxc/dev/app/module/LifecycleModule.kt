@@ -1,6 +1,6 @@
 package fxc.dev.app.module
 
-import fxc.dev.app.lifecycle.LifecycleManager
+import fxc.dev.app.helper.LifecycleManager
 import org.koin.dsl.module
 
 /**

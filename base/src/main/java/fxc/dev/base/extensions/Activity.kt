@@ -2,7 +2,7 @@ package fxc.dev.base.extensions
 
 import android.app.Activity
 import fxc.dev.base.R
-import fxc.dev.base.constants.Transaction
+import fxc.dev.base.constants.Transition
 
 /**
  *
@@ -13,48 +13,48 @@ import fxc.dev.base.constants.Transaction
 /**
  * Transition for open new activity
  *
- * @param transaction
+ * @param transition
  */
-fun Activity.applyTransitionIn(transaction: Transaction) {
-    when (transaction) {
-        Transaction.SLIDE_RIGHT -> overridePendingTransition(
+fun Activity.applyTransitionIn(transition: Transition) {
+    when (transition) {
+        Transition.SLIDE_RIGHT -> overridePendingTransition(
             R.anim.slide_left_in,
             R.anim.short_slide_right_out
         )
-        Transaction.SLIDE_LEFT -> overridePendingTransition(
+        Transition.SLIDE_LEFT -> overridePendingTransition(
             R.anim.slide_right_in,
             R.anim.short_slide_left_out
         )
-        Transaction.SLIDE_DOWN -> overridePendingTransition(
+        Transition.SLIDE_DOWN -> overridePendingTransition(
             R.anim.slide_top_in,
             R.anim.slide_none
         )
-        Transaction.SLIDE_UP -> overridePendingTransition(
+        Transition.SLIDE_UP -> overridePendingTransition(
             R.anim.slide_bottom_in,
             R.anim.slide_none
         )
-        else -> Transaction.NONE
+        else -> Transition.NONE
     }
 }
 
-fun Activity.applyTransitionOut(transaction: Transaction) {
-    when (transaction) {
-        Transaction.SLIDE_RIGHT -> overridePendingTransition(
+fun Activity.applyTransitionOut(transition: Transition) {
+    when (transition) {
+        Transition.SLIDE_RIGHT -> overridePendingTransition(
             R.anim.short_slide_right_in,
             R.anim.slide_left_out
         )
-        Transaction.SLIDE_LEFT -> overridePendingTransition(
+        Transition.SLIDE_LEFT -> overridePendingTransition(
             R.anim.short_slide_left_in,
             R.anim.slide_right_out
         )
-        Transaction.SLIDE_DOWN -> overridePendingTransition(
+        Transition.SLIDE_DOWN -> overridePendingTransition(
             R.anim.slide_none,
             R.anim.slide_top_out
         )
-        Transaction.SLIDE_UP -> overridePendingTransition(
+        Transition.SLIDE_UP -> overridePendingTransition(
             R.anim.slide_none,
             R.anim.slide_bottom_out
         )
-        else -> Transaction.NONE
+        else -> Transition.NONE
     }
 }

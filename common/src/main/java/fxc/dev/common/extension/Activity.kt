@@ -2,11 +2,11 @@ package fxc.dev.common.extension
 
 import android.app.Activity
 import android.os.Build
+import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.ColorRes
-import androidx.annotation.IntegerRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.play.core.review.ReviewManagerFactory
 
@@ -39,12 +39,28 @@ fun Activity.hideSoftKeyboard() {
     }
 }
 
-fun AppCompatActivity.addOnBackPressedDispatcher(onBackPressed: () -> Unit = { finish() }) {
+fun AppCompatActivity.addOnBackPressedDispatcher(onBackTapped: () -> Unit = { finish() }) {
+
     onBackPressedDispatcher.addCallback(
         this,
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                onBackPressed.invoke()
+                onBackTapped.invoke()
+
+                // Calling onBackPressed() on an Activity with its state saved can cause an
+                // error on devices on API levels before 26. We catch that specific error and
+                // throw all others.
+                try {
+                    onBackPressed()
+                } catch (e: IllegalStateException) {
+                    if (!TextUtils.equals(
+                            e.message,
+                            "Can not perform this action after onSaveInstanceState"
+                        )
+                    ) {
+                        throw e
+                    }
+                }
             }
         }
     )

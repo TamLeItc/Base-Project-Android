@@ -3,7 +3,6 @@
     <string name="app_name">Dev-BaseProject</string>
 
     <!-- Ads -->
-    <bool name="enable_show_ads">true</bool>
     <integer name="delay_show_interstitial_ad">15</integer>
 
     <string name="ads_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
@@ -20,4 +19,7 @@
     <string name="billing_inapp_onetime" translatable="false">test1</string>
     <string name="privacy_policy_url" translatable="false">https://en.wikipedia.org/wiki/Wiki</string>
     <string name="term_of_use_url" translatable="false">https://en.wikipedia.org/wiki/Wiki</string>
+
+    <!-- appsflyer -->
+    <string name="app_flyer_id" translatable="false">pjKQcgJ8V4peqBWayNLpNG</string>
 </resources>

@@ -9,7 +9,5 @@ import com.chibatching.kotpref.KotprefModel
  */
 
 object PrefUtils : KotprefModel() {
-    var isPremium by booleanPref(false)
-    var isBackDoorUsed by booleanPref(false)
     var language by stringPref("en")
 }

@@ -2,7 +2,11 @@ package fxc.dev.app.navigator
 
 import android.app.Activity
 import android.content.Intent
+import fxc.dev.app.R
 import fxc.dev.app.ui.main.MainActivity
+import fxc.dev.app.ui.purchase.PurchaseActivity
+import fxc.dev.app.ui.webview.WebViewActivity
+import fxc.dev.fox_purchase.utils.PurchaseUtils
 
 /**
  *
@@ -18,5 +22,29 @@ class NavigatorImp : Navigator {
         )
         activity.startActivity(intent)
         activity.finish()
+    }
+
+    override fun navigateToInApp(activity: Activity) {
+        if (PurchaseUtils.isPremium) {
+            return
+        }
+        val intent = PurchaseActivity.getIntent(activity)
+        activity.startActivity(intent)
+    }
+
+    override fun navigateToPolicy(activity: Activity) {
+        val intent = WebViewActivity.getIntent(
+            activity,
+            activity.getString(R.string.privacy_policy_url)
+        )
+        activity.startActivity(intent)
+    }
+
+    override fun navigateToTerm(activity: Activity) {
+        val intent = WebViewActivity.getIntent(
+            activity,
+            activity.getString(R.string.term_of_use_url)
+        )
+        activity.startActivity(intent)
     }
 }

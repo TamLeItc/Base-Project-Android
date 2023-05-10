@@ -40,7 +40,7 @@ object DepVersions {
     }
 
     object Firebase {
-        const val bom = "30.1.0"
+        const val bom = "32.0.0"
     }
 
     object GoogleService {
@@ -49,6 +49,11 @@ object DepVersions {
         const val firebaseAds = "22.0.0"
         const val identifierAds = "18.0.1"
         const val billing = "5.0.0"
+    }
+
+    object EventTracking {
+        const val appsFlyer = "6.3.2"
+        const val adsjust = "4.33.3"
     }
 
     object View {
@@ -146,6 +151,11 @@ object Dependencies {
         const val billing = "com.android.billingclient:billing:${DepVersions.GoogleService.billing}"
         const val billingKtx =
             "com.android.billingclient:billing-ktx:${DepVersions.GoogleService.billing}"
+    }
+
+    object EventTracking {
+        const val appsFlyer = "com.appsflyer:af-android-sdk:${DepVersions.EventTracking.appsFlyer}"
+        const val adsjust = "com.adjust.sdk:adjust-android:${DepVersions.EventTracking.adsjust}"
     }
 
     object View {

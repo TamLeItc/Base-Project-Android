@@ -59,3 +59,15 @@ fun DependencyHandlerScope.adsDependencies() {
     "implementation"(Dependencies.GoogleService.firebaseAds)
     "implementation"(Dependencies.GoogleService.identifierAds)
 }
+
+fun DependencyHandlerScope.firebaseConfigDependencies() {
+    "implementation"(platform(Dependencies.Firebase.bom))
+    "implementation"(Dependencies.Firebase.analytics)
+    "implementation"(Dependencies.Firebase.crashlytics)
+    "implementation"(Dependencies.Firebase.configKtx)
+}
+
+fun DependencyHandlerScope.eventTrackingDependencies() {
+    "implementation"(Dependencies.EventTracking.appsFlyer)
+    "implementation"(Dependencies.EventTracking.adsjust)
+}

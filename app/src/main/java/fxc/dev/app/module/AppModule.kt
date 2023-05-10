@@ -5,6 +5,7 @@ import fxc.dev.core.module.databaseModule
 import fxc.dev.core.module.networkModule
 import fxc.dev.core.module.repositoryModule
 import fxc.dev.fox_ads.module.foxAdsModule
+import fxc.dev.fox_purchase.module.purchaseModule
 
 /**
  *
@@ -17,8 +18,9 @@ val appModules = listOf(
     networkModule,
     databaseModule,
     repositoryModule,
-    viewModelModule,
     foxAdsModule,
     lifecycleModule,
-    navigatorModule
+    navigatorModule,
+    eventTrackingModule,
+    purchaseModule
 )

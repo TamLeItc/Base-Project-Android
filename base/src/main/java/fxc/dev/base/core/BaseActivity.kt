@@ -2,24 +2,31 @@ package fxc.dev.base.core
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.markodevcic.peko.ActivityRotatingException
-import fxc.dev.base.constants.Transaction
+import fxc.dev.base.constants.Transition
 import fxc.dev.base.extensions.applyTransitionIn
 import fxc.dev.base.extensions.applyTransitionOut
+import fxc.dev.base.interfaces.IBasePresentation
+import fxc.dev.base.interfaces.IBaseView
 import fxc.dev.common.bus.BusProvider
 import fxc.dev.common.dispatcher.CoroutineDispatchers
+import fxc.dev.common.extension.gone
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.widgets.dialog.loading.LoadingDialog
 import fxc.dev.common.wrapper.AppContextWrapper
 import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.constants.BannerSize
+import fxc.dev.fox_ads.interfaces.IAdsHelper
+import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.CoroutineContext
@@ -32,14 +39,13 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity<VM : BaseVM, VB : ViewBinding>
 protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId),
-    BaseComponent<VB>, CoroutineScope, KoinComponent {
+    IBaseView<VB>, IBasePresentation, IAdsHelper, CoroutineScope, KoinComponent {
 
-    val mainJob = Job()
     override val coroutineContext: CoroutineContext
-        get() = dispatchers.main + mainJob
+        get() = dispatchers.main + SupervisorJob()
 
     abstract val viewModel: VM
-    abstract val transaction: Transaction
+    abstract val transition: Transition
 
     protected val dispatchers: CoroutineDispatchers by inject()
     protected val adsHelper: AdsHelper by inject()
@@ -57,42 +63,36 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
         binding = getVB(layoutInflater)
         setContentView(binding.root)
 
-        applyTransitionIn(transaction)
-
         initialize(savedInstanceState)
         initViews()
         addListenerForViews()
         bindViewModel()
 
         bus.register(this)
+
+        applyTransitionIn(transition)
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
         bus.unregister(this)
-        if (isChangingConfigurations) {
-            mainJob.completeExceptionally(ActivityRotatingException())
-        } else {
-            mainJob.cancel()
-        }
     }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(appContextWrapper.wrap(newBase!!, PrefUtils.language));
     }
 
-    override fun onBackPressed() {
-        applyTransitionOut(transaction)
-        onBackPressedDispatcher.onBackPressed()
-    }
-
     override fun loadBannerAds(parentView: FrameLayout, adSize: BannerSize) {
-        adsHelper.addBanner(
-            activity = this,
-            viewParent = parentView,
-            adSize = adSize
-        )
+        if (AdsUtils.canShowAds()) {
+            adsHelper.addBanner(
+                activity = this,
+                viewParent = parentView,
+                adSize = adSize
+            )
+        } else {
+            parentView.gone()
+        }
     }
 
     /**
@@ -120,5 +120,14 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
             pendingShowProgress = false
             progressDialog.dismiss()
         }
+    }
+
+    override fun onBackTapped() {
+        onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        onBackPressedDispatcher.onBackPressed()
+        applyTransitionOut(transition)
     }
 }

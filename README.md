@@ -1,3 +1,32 @@
 Base Android Clean Architecture
 
-https://blog.dipien.com/versioning-android-apps-d6ec171cfd82
+### Module
+    app
+    base
+    common
+    data
+    fox_ads
+    fox_purchase
+    buildSrc
+
+### What is code base?
+    MVVM Clean Architecture
+    Kotlin
+    Koin
+    Lifecycle
+    DSL
+    Retrofit, Room
+    In-app billing
+    Admob
+    Appsflyer, Adjust
+    Firebase analytics/crashlytics
+
+### Config release
+    name_name app_id, inapp_id
+    Những thông tin trên edit trong file app/configs.xml
+
+    applicationId, versionCode, versionName
+    Những thông tin này edit trong file buildSrc/src/main/kotlin/AppConfig.kt
+
+### How to set app version?
+    https://blog.dipien.com/versioning-android-apps-d6ec171cfd82

@@ -10,14 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import fxc.dev.app.R
 import fxc.dev.base.core.BaseActivity
 import fxc.dev.app.databinding.ActivityMainBinding
+import fxc.dev.app.navigator.Navigator
+import fxc.dev.app.ui.demo.DemoActivity
 import fxc.dev.app.utils.AppUtils
-import fxc.dev.base.constants.Transaction
+import fxc.dev.base.constants.Transition
+import fxc.dev.common.extension.safeClickListener
 import fxc.dev.common.widgets.dialog.alert.TAlertAction
 import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
 import fxc.dev.common.widgets.dialog.alert.TAlertDialog
 import fxc.dev.core.domain.model.AppConfig
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.core.component.inject
 
 /**
  *
@@ -27,8 +31,10 @@ import kotlinx.coroutines.flow.onEach
 
 class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity_main) {
     override val viewModel: MainVM by viewModels()
-    override val transaction: Transaction
-        get() = Transaction.NONE
+    override val transition: Transition
+        get() = Transition.NONE
+
+    private val navigator: Navigator by inject()
 
     override fun getVB(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
@@ -36,12 +42,16 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
         viewModel.fetchAppConfigs()
     }
 
-    override fun initViews() {
+    override fun initViews() = binding.run {
 
     }
 
-    override fun addListenerForViews() {
-
+    override fun addListenerForViews() = binding.run {
+        btDemo.safeClickListener {
+//            navigator.navigateToDemo(this@MainActivity)
+            val intent = Intent(this@MainActivity, DemoActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun bindViewModel() {

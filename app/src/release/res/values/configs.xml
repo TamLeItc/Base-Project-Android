@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BaseProject</string>
+
+    <!-- Ads -->
+    <integer name="delay_show_interstitial_ad">15</integer>
+
+    <string name="ads_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+
+    <string name="ads_open_ads_id" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="ads_native_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ads_interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ads_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ads_rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+
+    <!-- In app -->
+    <string name="billing_sub_year" translatable="false">com.led.yearly</string>
+    <string name="billing_sub_month" translatable="false">monthly</string>
+    <string name="billing_inapp_onetime" translatable="false">test1</string>
+    <string name="privacy_policy_url" translatable="false">https://en.wikipedia.org/wiki/Wiki</string>
+    <string name="term_of_use_url" translatable="false">https://en.wikipedia.org/wiki/Wiki</string>
+
+    <!-- appsflyer -->
+    <string name="app_flyer_id" translatable="false">pjKQcgJ8V4peqBWayNLpNG</string>
 </resources>

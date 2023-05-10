@@ -13,6 +13,7 @@ dependencies {
     lifecycleDependencies()
     injectionDependencies()
     viewBindingDependencies()
+    firebaseConfigDependencies()
 
     implementation(Dependencies.GoogleService.playCore)
 
