@@ -1,7 +1,8 @@
 package fxc.dev.app.ui.splash
 
 import android.os.Build
-import fxc.dev.app.helper.LifecycleManager
+import fxc.dev.app.helper.lifecycle.LifecycleManager
+import fxc.dev.app.helper.lifecycle.LifecycleManagerImp
 import fxc.dev.base.core.BaseVM
 import fxc.dev.common.extension.interval
 import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
@@ -69,7 +70,7 @@ class SplashVM : BaseVM() {
             onCleared()
         } else {
             adsHelper.showAppOpenAd(
-                activity = lifecycleManager.currentActivity,
+                activity = lifecycleManager.getCurrentActivity(),
                 enableShowAfterFetchAd = true,
                 listener = openAdsListener
             )

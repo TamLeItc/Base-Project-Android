@@ -1,6 +1,10 @@
 package fxc.dev.app.module
 
-import fxc.dev.app.helper.LifecycleManager
+import fxc.dev.app.helper.lifecycle.LifecycleManager
+import fxc.dev.app.helper.lifecycle.LifecycleManagerImp
+import fxc.dev.app.navigator.Navigator
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 /**
@@ -10,5 +14,5 @@ import org.koin.dsl.module
  */
 
 val lifecycleModule = module {
-    single { LifecycleManager(get()) }
+    singleOf(::LifecycleManagerImp) { bind<LifecycleManager>() }
 }

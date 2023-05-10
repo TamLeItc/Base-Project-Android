@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.markodevcic.peko.ActivityRotatingException
-import fxc.dev.base.interfaces.IBasePresentation
+import fxc.dev.base.interfaces.IBaseComponent
 import fxc.dev.base.interfaces.IBaseView
 import fxc.dev.common.bus.BusProvider
 import fxc.dev.common.dispatcher.CoroutineDispatchers
@@ -27,7 +27,7 @@ import kotlin.coroutines.CoroutineContext
  */
 
 abstract class BaseFragment<VM : BaseVM, VB : ViewBinding>
-protected constructor() : Fragment(), CoroutineScope, IBaseView<VB>, IBasePresentation,
+protected constructor() : Fragment(), CoroutineScope, IBaseView<VB>, IBaseComponent,
     KoinComponent {
 
     val mainJob = Job()

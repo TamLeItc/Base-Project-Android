@@ -1,6 +1,7 @@
 import plugins.adsDependencies
 import plugins.injectionDependencies
 import plugins.kotlinDependencies
+import plugins.lifecycleDependencies
 import plugins.viewBindingDependencies
 
 plugins {
@@ -20,6 +21,7 @@ dependencies {
     viewBindingDependencies()
     injectionDependencies()
     adsDependencies()
+    lifecycleDependencies()
 
     implementation(Dependencies.View.cardView)
     implementation(Dependencies.View.constraintLayout)

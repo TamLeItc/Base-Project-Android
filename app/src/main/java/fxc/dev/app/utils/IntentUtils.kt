@@ -10,7 +10,6 @@ import fxc.dev.app.BuildConfig
  */
 
 object IntentUtils {
-
     fun settingApp(): Intent {
         return Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

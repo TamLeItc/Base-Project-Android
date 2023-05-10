@@ -2,17 +2,14 @@ package fxc.dev.base.core
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.widget.FrameLayout
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.markodevcic.peko.ActivityRotatingException
 import fxc.dev.base.constants.Transition
 import fxc.dev.base.extensions.applyTransitionIn
 import fxc.dev.base.extensions.applyTransitionOut
-import fxc.dev.base.interfaces.IBasePresentation
+import fxc.dev.base.interfaces.IBaseComponent
 import fxc.dev.base.interfaces.IBaseView
 import fxc.dev.common.bus.BusProvider
 import fxc.dev.common.dispatcher.CoroutineDispatchers
@@ -25,7 +22,6 @@ import fxc.dev.fox_ads.constants.BannerSize
 import fxc.dev.fox_ads.interfaces.IAdsHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -39,7 +35,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity<VM : BaseVM, VB : ViewBinding>
 protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId),
-    IBaseView<VB>, IBasePresentation, IAdsHelper, CoroutineScope, KoinComponent {
+    IBaseView<VB>, IBaseComponent, IAdsHelper, CoroutineScope, KoinComponent {
 
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + SupervisorJob()

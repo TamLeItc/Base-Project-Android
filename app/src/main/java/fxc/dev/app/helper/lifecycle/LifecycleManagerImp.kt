@@ -1,4 +1,4 @@
-package fxc.dev.app.helper
+package fxc.dev.app.helper.lifecycle
 
 /**
  *
@@ -9,8 +9,10 @@ package fxc.dev.app.helper
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.adjust.sdk.Adjust
@@ -23,22 +25,23 @@ import fxc.dev.app.ui.webview.WebViewActivity
  * Created by Tam Le on 17/06/2022.
  */
 
-class LifecycleManager(
+class LifecycleManagerImp(
     var adsHelper: AdsHelper
-) : LifecycleObserver, Application.ActivityLifecycleCallbacks {
+): Application.ActivityLifecycleCallbacks, LifecycleManager, DefaultLifecycleObserver {
 
-    var currentActivity: Activity? = null
+    private var currentActivity: Activity? = null
 
-    fun initialize() {
+    override fun initialize() {
         MainApplication.instance.registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
-    /**
-     * LifecycleObserver methods
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun getCurrentActivity(): Activity? {
+        return currentActivity
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
         if (currentActivity is PurchaseActivity || currentActivity is WebViewActivity) {
             return
         }

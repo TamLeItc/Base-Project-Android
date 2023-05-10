@@ -3,6 +3,7 @@ package fxc.dev.fox_ads.admob_ads
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.os.Bundle
 import android.util.Log
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -22,16 +23,18 @@ class AppOpenAdHelper
 private constructor(
     private var application: Application,
     private var adsOpenId: String
-) {
+) : Application.ActivityLifecycleCallbacks {
 
     interface AppOpenAdListener {
         fun onAdShowed()
         fun onAdClosed()
     }
 
-    var isShowingAd = false
-
     private val TAG = "AppOpenAdManager"
+
+    private var currentActivity: Activity? = null
+
+    private var isShowingAd = false
 
     private var appOpenAd: AppOpenAd? = null
     private var loadTime: Long = 0
@@ -133,6 +136,34 @@ private constructor(
 
     private fun canShowAppOpenAd(): Boolean {
         return appOpenAd != null && isAdAvailable && !isShowingAd
+    }
+
+    override fun onActivityCreated(p0: Activity, p1: Bundle?) {
+
+    }
+
+    override fun onActivityStarted(p0: Activity) {
+
+    }
+
+    override fun onActivityResumed(p0: Activity) {
+
+    }
+
+    override fun onActivityPaused(p0: Activity) {
+
+    }
+
+    override fun onActivityStopped(p0: Activity) {
+
+    }
+
+    override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
+
+    }
+
+    override fun onActivityDestroyed(p0: Activity) {
+
     }
 
     companion object {

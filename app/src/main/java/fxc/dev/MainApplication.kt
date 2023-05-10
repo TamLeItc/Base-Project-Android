@@ -7,8 +7,8 @@ import com.google.firebase.FirebaseApp
 import fxc.dev.app.BuildConfig
 import fxc.dev.app.R
 import fxc.dev.app.constants.BillingConstants
-import fxc.dev.app.helper.LifecycleManager
 import fxc.dev.app.helper.event_tracking.EventTracking
+import fxc.dev.app.helper.lifecycle.LifecycleManager
 import fxc.dev.app.module.appModules
 import fxc.dev.common.remote_config.RemoteConfigManager
 import fxc.dev.dji_drone.common.remote_config.RemoteConfigKey

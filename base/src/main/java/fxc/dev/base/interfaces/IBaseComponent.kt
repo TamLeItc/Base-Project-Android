@@ -1,8 +1,6 @@
 package fxc.dev.base.interfaces
 
 import android.os.Bundle
-import android.widget.FrameLayout
-import fxc.dev.fox_ads.constants.BannerSize
 
 /**
  *
@@ -10,7 +8,7 @@ import fxc.dev.fox_ads.constants.BannerSize
  *
  */
 
-interface IBasePresentation {
+interface IBaseComponent {
     fun initialize(savedInstanceState: Bundle?)
     fun bindViewModel()
     fun showLoading(isShow: Boolean)
