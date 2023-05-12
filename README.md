@@ -3,7 +3,7 @@ Base Android Clean Architecture
 ### Module
     app
     base
-    common
+    common (used for all modules)
     data
     fox_ads
     fox_purchase
@@ -11,15 +11,24 @@ Base Android Clean Architecture
 
 ### What is code base?
     MVVM Clean Architecture
+     - DSLs with Kotlin
+     - Dependency injection with Koin
+     - REST api with Retrofit
+     - Local database with Room
+     - Tracking event with Appsflyer, Adjust
+     - Firebase analytics/crashlytics
+     
     Kotlin
-    Koin
+    View binding
+    Androidx
+    Navigation
+    Material
+    Glide
     Lifecycle
-    DSL
-    Retrofit, Room
+    Coroutine
     In-app billing
     Admob
-    Appsflyer, Adjust
-    Firebase analytics/crashlytics
+     
 
 ### Config release
     name_name app_id, inapp_id
