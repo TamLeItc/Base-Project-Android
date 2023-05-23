@@ -19,6 +19,7 @@ import fxc.dev.common.widgets.dialog.alert.TAlertAction
 import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
 import fxc.dev.common.widgets.dialog.alert.TAlertDialog
 import fxc.dev.core.domain.model.AppConfig
+import fxc.dev.fox_ads.view.ExitAppDialog
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.inject
@@ -78,6 +79,12 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
                     }
                 }
             }.launchIn(lifecycleScope)
+    }
+
+    override fun onBackPressed() {
+        ExitAppDialog {
+            super.onBackPressed()
+        }.show(supportFragmentManager)
     }
 
     private fun showDialogRequireUpdate(isRequire: Boolean) {
