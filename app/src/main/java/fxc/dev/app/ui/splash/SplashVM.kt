@@ -2,7 +2,6 @@ package fxc.dev.app.ui.splash
 
 import android.os.Build
 import fxc.dev.app.helper.lifecycle.LifecycleManager
-import fxc.dev.app.helper.lifecycle.LifecycleManagerImp
 import fxc.dev.base.core.BaseVM
 import fxc.dev.common.extension.interval
 import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
@@ -29,8 +28,6 @@ class SplashVM : BaseVM() {
 
     private var _launchAppState: MutableStateFlow<LauncherState> = MutableStateFlow(LauncherState.Init)
     val launchAppState  = _launchAppState.asStateFlow()
-
-    private val lifecycleManager: LifecycleManager by inject()
 
     private var job: Job? = null
     private val mainScope = CoroutineScope(dispatchers.main)
@@ -70,7 +67,7 @@ class SplashVM : BaseVM() {
             onCleared()
         } else {
             adsHelper.showAppOpenAd(
-                activity = lifecycleManager.getCurrentActivity(),
+                activity = LifecycleManager.getInstance().getCurrentActivity(),
                 enableShowAfterFetchAd = true,
                 listener = openAdsListener
             )

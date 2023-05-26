@@ -1,4 +1,4 @@
-package fxc.dev.fox_purchase.extension
+package fxc.dev.foxcode_tracking.extensions
 
 import com.android.billingclient.api.ProductDetails
 
@@ -8,7 +8,7 @@ import com.android.billingclient.api.ProductDetails
  *
  */
 
-fun ProductDetails.biggestSubscriptionOfferDetailsToken(): ProductDetails.SubscriptionOfferDetails? {
+fun ProductDetails.subscriptionOfferDetails(): ProductDetails.SubscriptionOfferDetails? {
     var biggestPricedOffer: ProductDetails.SubscriptionOfferDetails? = null
     var biggestPrice = 0
 
@@ -17,7 +17,7 @@ fun ProductDetails.biggestSubscriptionOfferDetailsToken(): ProductDetails.Subscr
             offer
         }
     }?.let {
-        if (!it.isNullOrEmpty()) {
+        if (it.isNotEmpty()) {
             for (offer in it) {
                 for (price in offer.pricingPhases.pricingPhaseList) {
                     if (price.priceAmountMicros > biggestPrice) {

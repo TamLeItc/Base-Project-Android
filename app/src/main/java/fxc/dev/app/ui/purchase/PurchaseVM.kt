@@ -2,9 +2,9 @@ package fxc.dev.app.ui.purchase
 
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
-import fxc.dev.MainApplication
+import fxc.dev.app.MainApplication
 import fxc.dev.app.constants.BillingConstants.iapInfoList
-import fxc.dev.app.helper.event_tracking.EventTracking
+import fxc.dev.foxcode_tracking.event_tracking.EventTracking
 import fxc.dev.base.core.BaseVM
 import fxc.dev.fox_purchase.model.IAPInfo
 import fxc.dev.fox_purchase.model.IAPProduct
@@ -38,7 +38,7 @@ class PurchaseVM : BaseVM() {
     init {
         purchaseManager.getProductPurchasedState()
             .onEach {
-                eventTracking.logPurchaseEvent(MainApplication.instance, it)
+                eventTracking.logPurchaseEvent(MainApplication.instance, it.productDetails)
             }.launchIn(viewModelScope)
     }
 

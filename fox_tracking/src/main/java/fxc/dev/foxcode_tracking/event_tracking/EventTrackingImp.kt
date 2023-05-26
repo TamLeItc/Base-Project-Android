@@ -1,11 +1,12 @@
-package fxc.dev.app.helper.event_tracking
+package fxc.dev.foxcode_tracking.event_tracking
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.adjust.sdk.Adjust
 import com.adjust.sdk.AdjustConfig
 import com.adjust.sdk.AdjustEvent
-import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.ProductDetails
 import com.appsflyer.AFInAppEventParameterName
 import com.appsflyer.AFInAppEventType
 import com.appsflyer.AppsFlyerLib
@@ -14,11 +15,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
-import fxc.dev.fox_purchase.BuildConfig
-import fxc.dev.fox_purchase.extension.biggestPrice
-import fxc.dev.fox_purchase.extension.subscriptionOfferDetails
-import fxc.dev.fox_purchase.model.IAPProduct
-import fxc.dev.fox_purchase.model.IAPProductType
+import fxc.dev.dji_drone.common.remote_config.RemoteConfigKey
+import fxc.dev.fox_tracking.BuildConfig
+import fxc.dev.foxcode_tracking.extensions.biggestPrice
+import fxc.dev.foxcode_tracking.extensions.subscriptionOfferDetails
+import fxc.dev.foxcode_tracking.lifecycle.TrackingLifecycle
+import fxc.dev.foxcode_tracking.remote_config.RemoteConfigManager
 
 /**
  *
@@ -26,36 +28,29 @@ import fxc.dev.fox_purchase.model.IAPProductType
  *
  */
 
-class EventTrackingImp() : EventTracking {
+class EventTrackingImp : EventTracking {
 
     private val TAG = "LogEventHelper"
 
     private var isInitiated: Boolean = false
 
-    private var adjustPurchaseToken = ""
-
-    override fun startTrackingWith(
-        context: Context,
-        appFlyerId: String,
-        adjustAppToken: String,
-        adjustPurchaseToken: String
-    ) {
+    override fun startTrackingWith(application: Application, appFlyerId: String) {
         if (isInitiated) return
 
-        this.adjustPurchaseToken = adjustPurchaseToken
         this.isInitiated = true
 
-        initAdjust(context, adjustAppToken)
-        initAppsFlyer(context, appFlyerId)
+        initAdjust(application)
+        initAppsFlyer(application, appFlyerId)
+
+        TrackingLifecycle.getInstance().setRegisterLifecycleCallbacks(application)
     }
 
     private fun initAdjust(
-        context: Context,
-        adjustAppToken: String
+        context: Context
     ) {
         val env: String =
             if (BuildConfig.DEBUG) AdjustConfig.ENVIRONMENT_SANDBOX else AdjustConfig.ENVIRONMENT_PRODUCTION
-        val config = AdjustConfig(context, adjustAppToken, env)
+        val config = AdjustConfig(context, RemoteConfigManager.getString(RemoteConfigKey.ADJUST_APP_TOKEN), env)
         config.setLogLevel(com.adjust.sdk.LogLevel.VERBOSE)
         Adjust.onCreate(config)
     }
@@ -74,46 +69,36 @@ class EventTrackingImp() : EventTracking {
 
     override fun logPurchaseEvent(
         context: Context?,
-        iapProduct: IAPProduct?
+        product: ProductDetails?
     ) {
-        if (context == null || iapProduct == null) {
+        if (context == null || product == null) {
             return
         }
 
-        val contentType = if (iapProduct.productType == IAPProductType.Subscription) {
-            BillingClient.ProductType.SUBS
-        } else {
-            BillingClient.ProductType.INAPP
-        }
+        product.subscriptionOfferDetails()?.let { offerDetails ->
+            offerDetails.biggestPrice()?.let { pricePhase ->
+                val revenue = pricePhase.priceAmountMicros / 1000000
+                val currencyCode = pricePhase.priceCurrencyCode
 
-        val productId = iapProduct.skuId
-
-        iapProduct.productDetails?.let { productDetails ->
-            productDetails.subscriptionOfferDetails()?.let { offerDetails ->
-                offerDetails.biggestPrice()?.let { pricePhase ->
-                    val revenue = pricePhase.priceAmountMicros / 1000000
-                    val currencyCode = pricePhase.priceCurrencyCode
-
-                    logToAppsFlyer(
-                        context = context,
-                        productId = productId,
-                        revenue = revenue,
-                        currencyCode = currencyCode,
-                        contentType = contentType
-                    )
-                    logToAdjust(
-                        purchaseToken = adjustPurchaseToken,
-                        productId = productId,
-                        revenue = revenue.toDouble(),
-                        currencyCode = currencyCode
-                    )
-                    logToFirebaseAnalytics(
-                        productId = productId,
-                        revenue = revenue,
-                        currencyCode = currencyCode,
-                        contentType = contentType
-                    )
-                }
+                logToAppsFlyer(
+                    context = context,
+                    productId = product.productId,
+                    revenue = revenue,
+                    currencyCode = currencyCode,
+                    contentType = product.productType
+                )
+                logToAdjust(
+                    purchaseToken = RemoteConfigManager.getString(RemoteConfigKey.ADJUST_PURCHASE_TOKEN),
+                    productId = product.productId,
+                    revenue = revenue.toDouble(),
+                    currencyCode = currencyCode
+                )
+                logToFirebaseAnalytics(
+                    productId = product.productId,
+                    revenue = revenue,
+                    currencyCode = currencyCode,
+                    contentType = product.productType
+                )
             }
         }
     }

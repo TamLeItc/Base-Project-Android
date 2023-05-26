@@ -50,8 +50,9 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     override fun addListenerForViews() = binding.run {
         btDemo.safeClickListener {
 //            navigator.navigateToDemo(this@MainActivity)
-            val intent = Intent(this@MainActivity, DemoActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this@MainActivity, DemoActivity::class.java)
+//            startActivity(intent)
+            navigator.navigateToInApp(this@MainActivity)
         }
     }
 

@@ -12,10 +12,13 @@ import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import fxc.dev.common.extension.gone
+import fxc.dev.common.extension.visible
 import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.constants.BannerSize
 import fxc.dev.fox_ads.databinding.DialogExitAppBinding
 import fxc.dev.fox_ads.utils.FullScreenLayoutParams
+import fxc.dev.fox_purchase.utils.PurchaseUtils
 import org.koin.android.ext.android.inject
 
 /**
@@ -92,7 +95,14 @@ constructor(
     }
 
     private fun setupViews() = binding.run {
-        loadAds()
+        if (PurchaseUtils.isPremium) {
+            flAdView.gone()
+            progressBar.gone()
+        } else {
+            flAdView.visible()
+            progressBar.visible()
+            loadAds()
+        }
     }
 
     private fun setupEventViews() = binding.run {

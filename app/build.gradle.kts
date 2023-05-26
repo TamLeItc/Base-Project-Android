@@ -28,6 +28,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":fox_ads"))
     implementation(project(":fox_purchase"))
+    implementation(project(":fox_tracking"))
 
     kotlinDependencies()
     lifecycleDependencies()
@@ -36,7 +37,6 @@ dependencies {
     glideDependencies()
     billingDependencies()
     firebaseConfigDependencies()
-    eventTrackingDependencies()
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 

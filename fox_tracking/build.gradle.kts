@@ -1,4 +1,5 @@
 import plugins.billingDependencies
+import plugins.eventTrackingDependencies
 import plugins.firebaseConfigDependencies
 import plugins.injectionDependencies
 import plugins.kotlinDependencies
@@ -10,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "fxc.dev.fox_purchase"
+    namespace = "fxc.dev.fox_tracking"
 }
 
 dependencies {
@@ -18,15 +19,8 @@ dependencies {
 
     kotlinDependencies()
     lifecycleDependencies()
-    billingDependencies()
     firebaseConfigDependencies()
     injectionDependencies()
-
-    implementation(Dependencies.AndroidX.appCompat)
-
-    implementation(Dependencies.View.constraintLayout)
-    implementation(Dependencies.View.recyclerView)
-
-    implementation(Dependencies.More.prefKtx)
-    implementation(Dependencies.More.prefSupport)
+    billingDependencies()
+    eventTrackingDependencies()
 }

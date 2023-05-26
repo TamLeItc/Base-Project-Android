@@ -19,12 +19,8 @@ data class IAPProduct(
 ) {
     val isFreeTrial: Boolean
         get() {
-            return productDetails?.subscriptionOfferDetails?.isNotEmpty() ?: false &&
-                    (productDetails?.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.size
-                        ?: 0) >= 1 &&
-                    productDetails?.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.get(
-                        0
-                    )?.priceAmountMicros == 0L
+            val pricingPhaseList = productDetails?.subscriptionOfferDetails?.firstOrNull()?.pricingPhases?.pricingPhaseList
+            return pricingPhaseList?.firstOrNull { it.priceAmountMicros == 0L }?.priceAmountMicros == 0L
         }
 
     val freeTrialDays: Int

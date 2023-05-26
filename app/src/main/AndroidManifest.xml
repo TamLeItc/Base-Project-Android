@@ -10,7 +10,7 @@
     <uses-sdk tools:overrideLibrary="androidx.core.splashscreen" />
 
     <application
-        android:name="fxc.dev.MainApplication"
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"

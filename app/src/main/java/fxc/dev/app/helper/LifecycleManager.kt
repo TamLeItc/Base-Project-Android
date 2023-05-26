@@ -6,37 +6,37 @@ package fxc.dev.app.helper.lifecycle
  *
  */
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.adjust.sdk.Adjust
-import fxc.dev.MainApplication
-import fxc.dev.fox_ads.AdsHelper
+import fxc.dev.app.MainApplication
 import fxc.dev.app.ui.purchase.PurchaseActivity
 import fxc.dev.app.ui.webview.WebViewActivity
+import fxc.dev.fox_ads.AdsHelper
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /**
  * Created by Tam Le on 17/06/2022.
  */
 
-class LifecycleManagerImp(
-    var adsHelper: AdsHelper
-): Application.ActivityLifecycleCallbacks, LifecycleManager, DefaultLifecycleObserver {
+class LifecycleManager : Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver,
+    KoinComponent {
+
+    private val adsHelper: AdsHelper by inject()
 
     private var currentActivity: Activity? = null
 
-    override fun initialize() {
+    fun initialize() {
         MainApplication.instance.registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
-    override fun getCurrentActivity(): Activity? {
+    fun getCurrentActivity(): Activity? {
         return currentActivity
     }
 
@@ -56,11 +56,10 @@ class LifecycleManagerImp(
 
     override fun onActivityResumed(activity: Activity) {
         currentActivity = activity
-        Adjust.onResume()
     }
 
     override fun onActivityPaused(activity: Activity) {
-        Adjust.onPause()
+
     }
 
     override fun onActivityStopped(activity: Activity) {}
@@ -73,5 +72,16 @@ class LifecycleManagerImp(
 
     override fun onActivityDestroyed(activity: Activity) {
         currentActivity = null
+    }
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: LifecycleManager? = null
+        fun getInstance(): LifecycleManager {
+            if (instance == null) {
+                instance = LifecycleManager()
+            }
+            return instance!!
+        }
     }
 }

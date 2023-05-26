@@ -1,7 +1,7 @@
 package fxc.dev.app.constants
 
 import android.content.res.Resources
-import fxc.dev.MainApplication
+import fxc.dev.app.MainApplication
 import fxc.dev.app.R
 import fxc.dev.fox_purchase.model.IAPInfo
 import fxc.dev.fox_purchase.model.IAPProduct

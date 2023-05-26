@@ -48,7 +48,7 @@ object DepVersions {
         const val playServicesAds = "22.0.0"
         const val firebaseAds = "22.0.0"
         const val identifierAds = "18.0.1"
-        const val billing = "5.0.0"
+        const val billing = "6.0.0"
     }
 
     object EventTracking {
