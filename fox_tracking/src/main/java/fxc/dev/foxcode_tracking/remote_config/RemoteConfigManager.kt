@@ -17,7 +17,7 @@ object RemoteConfigManager {
 
     private const val TAG = "RemoteConfigManager"
 
-    fun onCreate(application: Application) {
+    fun onCreate() {
         val config = FirebaseRemoteConfig.getInstance()
         val configSettings: FirebaseRemoteConfigSettings = FirebaseRemoteConfigSettings.Builder()
             .build()

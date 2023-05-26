@@ -76,7 +76,7 @@ class MainApplication : Application(), KoinComponent {
     private fun firebaseConfigs() {
         FirebaseApp.initializeApp(this)
 
-        RemoteConfigManager.onCreate(this)
+        RemoteConfigManager.onCreate()
         RemoteConfigManager.startFetchConfig {
             startEventTracking()
         }
