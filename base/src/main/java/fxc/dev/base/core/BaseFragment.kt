@@ -16,6 +16,7 @@ import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.wrapper.AppContextWrapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.CoroutineContext
@@ -30,9 +31,8 @@ abstract class BaseFragment<VM : BaseVM, VB : ViewBinding>
 protected constructor() : Fragment(), CoroutineScope, IBaseView<VB>, IBaseComponent,
     KoinComponent {
 
-    val mainJob = Job()
     override val coroutineContext: CoroutineContext
-        get() = dispatchers.main + mainJob
+        get() = dispatchers.main + SupervisorJob()
 
     abstract val viewModel: VM
 
@@ -65,11 +65,6 @@ protected constructor() : Fragment(), CoroutineScope, IBaseView<VB>, IBaseCompon
     override fun onDestroy() {
         super.onDestroy()
         bus.unregister(this)
-        if (activity?.isChangingConfigurations == true) {
-            mainJob.completeExceptionally(ActivityRotatingException())
-        } else {
-            mainJob.cancel()
-        }
     }
 
     override fun showLoading(isShow: Boolean) {

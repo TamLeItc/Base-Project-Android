@@ -23,6 +23,11 @@ dependencies {
     adsDependencies()
     lifecycleDependencies()
 
+    implementation(Dependencies.AndroidX.work)
+    implementation(Dependencies.AndroidX.appCompat)
+
+    implementation(Dependencies.View.material)
+
     implementation(Dependencies.View.cardView)
     implementation(Dependencies.View.constraintLayout)
 

@@ -54,6 +54,7 @@ object DepVersions {
     object EventTracking {
         const val appsFlyer = "6.3.2"
         const val adsjust = "4.33.3"
+        const val installreferrer = "2.2"
     }
 
     object View {
@@ -156,6 +157,7 @@ object Dependencies {
     object EventTracking {
         const val appsFlyer = "com.appsflyer:af-android-sdk:${DepVersions.EventTracking.appsFlyer}"
         const val adsjust = "com.adjust.sdk:adjust-android:${DepVersions.EventTracking.adsjust}"
+        const val installreferrer = "com.android.installreferrer:installreferrer:${DepVersions.EventTracking.installreferrer}"
     }
 
     object View {

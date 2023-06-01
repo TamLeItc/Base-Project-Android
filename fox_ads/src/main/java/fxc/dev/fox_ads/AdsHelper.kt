@@ -13,7 +13,6 @@ interface AdsHelper {
     fun initialize(
         delayShowInterstitialAd: Int = 45,
         adsOpenId: String = "",
-        adsBannerId: String = "",
         adsRewardId: String = "",
         adsInterstitialId: String = "",
         adsNativeId: String = ""
@@ -23,6 +22,7 @@ interface AdsHelper {
         activity: Activity,
         viewParent: FrameLayout,
         adSize: BannerSize,
+        adUnitId: String,
         onAdLoaded: (() -> Unit)? = null,
         onAdFailedToLoad: (() -> Unit)? = null
     )

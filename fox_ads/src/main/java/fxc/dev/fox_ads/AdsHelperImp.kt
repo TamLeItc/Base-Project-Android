@@ -35,14 +35,13 @@ class AdsHelperImp(
     override fun initialize(
         delayShowInterstitialAd: Int,
         adsOpenId: String,
-        adsBannerId: String,
         adsRewardId: String,
         adsInterstitialId: String,
         adsNativeId: String
     ) {
         MobileAds.initialize(application)
         appOpenAd = AppOpenAdHelper.getInstance(application, adsOpenId)
-        bannerAd = BannerAdHelper.getInstance(adsBannerId)
+        bannerAd = BannerAdHelper.getInstance()
         rewardedAd = RewardedAdHelper.getInstance(application, adsRewardId)
         interstitialAd = InterstitialAdHelper.getInstance(
             application,
@@ -56,6 +55,7 @@ class AdsHelperImp(
         activity: Activity,
         viewParent: FrameLayout,
         adSize: BannerSize,
+        adUnitId: String,
         onAdLoaded: (() -> Unit)?,
         onAdFailedToLoad: (() -> Unit)?
     ) {
@@ -66,6 +66,7 @@ class AdsHelperImp(
         bannerAd?.addBanner(
             activity,
             viewParent,
+            adUnitId,
             adSize,
             onAdLoaded,
             onAdFailedToLoad

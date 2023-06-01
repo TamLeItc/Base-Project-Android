@@ -10,5 +10,5 @@ import fxc.dev.fox_ads.constants.BannerSize
  */
 
 interface IAdsHelper {
-    fun loadBannerAds(parentView: FrameLayout, adSize: BannerSize = BannerSize.SMART)
+    fun loadBannerAds()
 }

@@ -2,7 +2,6 @@ package fxc.dev.base.core
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
@@ -13,14 +12,11 @@ import fxc.dev.base.interfaces.IBaseComponent
 import fxc.dev.base.interfaces.IBaseView
 import fxc.dev.common.bus.BusProvider
 import fxc.dev.common.dispatcher.CoroutineDispatchers
-import fxc.dev.common.extension.gone
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.widgets.dialog.loading.LoadingDialog
 import fxc.dev.common.wrapper.AppContextWrapper
 import fxc.dev.fox_ads.AdsHelper
-import fxc.dev.fox_ads.constants.BannerSize
 import fxc.dev.fox_ads.interfaces.IAdsHelper
-import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.component.KoinComponent
@@ -35,7 +31,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity<VM : BaseVM, VB : ViewBinding>
 protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId),
-    IBaseView<VB>, IBaseComponent, IAdsHelper, CoroutineScope, KoinComponent {
+    IBaseView<VB>, IBaseComponent, CoroutineScope, KoinComponent {
 
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + SupervisorJob()
@@ -77,18 +73,6 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(appContextWrapper.wrap(newBase!!, PrefUtils.language));
-    }
-
-    override fun loadBannerAds(parentView: FrameLayout, adSize: BannerSize) {
-        if (AdsUtils.canShowAds()) {
-            adsHelper.addBanner(
-                activity = this,
-                viewParent = parentView,
-                adSize = adSize
-            )
-        } else {
-            parentView.gone()
-        }
     }
 
     /**

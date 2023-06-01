@@ -11,12 +11,14 @@
     <string name="ads_native_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ads_interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ads_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ads_banner_large_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ads_rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- In app -->
     <string name="billing_sub_year" translatable="false">com.led.yearly</string>
     <string name="billing_sub_month" translatable="false">monthly</string>
     <string name="billing_inapp_onetime" translatable="false">test1</string>
+    
     <string name="privacy_policy_url" translatable="false">https://en.wikipedia.org/wiki/Wiki</string>
     <string name="term_of_use_url" translatable="false">https://en.wikipedia.org/wiki/Wiki</string>
 

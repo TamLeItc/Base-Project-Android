@@ -7,18 +7,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
-import android.widget.RelativeLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import fxc.dev.common.extension.gone
-import fxc.dev.common.extension.visible
 import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.constants.BannerSize
 import fxc.dev.fox_ads.databinding.DialogExitAppBinding
-import fxc.dev.fox_ads.utils.FullScreenLayoutParams
-import fxc.dev.fox_purchase.utils.PurchaseUtils
+import fxc.dev.fox_ads.utils.AdsUtils
 import org.koin.android.ext.android.inject
 
 /**
@@ -27,8 +22,8 @@ import org.koin.android.ext.android.inject
  *
  */
 
-class ExitAppDialog
-constructor(
+class ExitAppDialog(
+    private val adUnitId: String,
     private val onClickExitApp: (() -> Unit)
 ) : DialogFragment() {
 
@@ -36,26 +31,26 @@ constructor(
 
     private lateinit var binding: DialogExitAppBinding
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        // the content
-        val root = RelativeLayout(activity)
-        root.layoutParams = FullScreenLayoutParams.get()
-
-        // creating the fullscreen dialog
-        val dialog = object : Dialog(requireActivity()) {
-            override fun onBackPressed() {
-                dismiss()
+    override fun onStart() {
+        super.onStart()
+        val dialog = dialog
+        if (dialog != null) {
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = if (AdsUtils.canShowAds()) {
+                ViewGroup.LayoutParams.MATCH_PARENT
+            } else {
+                ViewGroup.LayoutParams.WRAP_CONTENT
             }
+            dialog.window?.setLayout(width, height)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.setCancelable(false)
         }
+    }
 
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(root)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = Dialog(requireActivity())
 
-        fullScreenDialog(dialog)
-
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setCancelable(false)
         return dialog
     }
 
@@ -65,15 +60,14 @@ constructor(
         savedInstanceState: Bundle?
     ): View {
         binding = DialogExitAppBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViews()
-        setupEventViews()
+        initView()
+        loadAds()
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
@@ -94,52 +88,29 @@ constructor(
         show(frgManager, "ExitAppDialog")
     }
 
-    private fun setupViews() = binding.run {
-        if (PurchaseUtils.isPremium) {
-            flAdView.gone()
-            progressBar.gone()
-        } else {
-            flAdView.visible()
-            progressBar.visible()
-            loadAds()
-        }
-    }
 
-    private fun setupEventViews() = binding.run {
-        tvExitApp.setOnClickListener {
-            onClickExitApp.invoke()
+    private fun initView() {
+        binding.btnExit.setOnClickListener {
             dismiss()
+            onClickExitApp()
         }
 
-        tvContinueUseApp.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             dismiss()
         }
     }
 
     private fun loadAds() = binding.run {
-        adsHelper.addBanner(
-            activity = requireActivity(),
-            viewParent = flAdView,
-            adSize = BannerSize.RECTANGLE,
-        )
-    }
-
-    private fun fullScreenDialog(dialog: Dialog) {
-        dialog.window!!.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-
-        val decorView = dialog.window!!.decorView
-        decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-
-        dialog.window!!.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-        )
+        if (!AdsUtils.canShowAds()) {
+            flAdView.gone()
+            progressBar.gone()
+        } else {
+            adsHelper.addBanner(
+                activity = requireActivity(),
+                viewParent = flAdView,
+                adSize = BannerSize.RECTANGLE,
+                adUnitId = adUnitId
+            )
+        }
     }
 }

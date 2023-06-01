@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import fxc.dev.app.R
@@ -23,6 +24,7 @@ import fxc.dev.fox_ads.view.ExitAppDialog
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.inject
+import kotlin.system.exitProcess
 
 /**
  *
@@ -37,9 +39,24 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
 
     private val navigator: Navigator by inject()
 
+    private var onBackPressedCallback =  object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            adsHelper.showInterstitialAd(this@MainActivity) {
+                ExitAppDialog(getString(R.string.ads_banner_large_id)) {
+                    finishAffinity()
+                }.show(supportFragmentManager)
+            }
+        }
+    }
+
     override fun getVB(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
+        onBackPressedDispatcher.addCallback(
+            this,
+            onBackPressedCallback
+        )
+
         viewModel.fetchAppConfigs()
     }
 
@@ -53,6 +70,10 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
             val intent = Intent(this@MainActivity, DemoActivity::class.java)
             startActivity(intent)
         }
+
+//        btnInApp.safeClickListener {
+//            navigator.navigateToInApp(this@MainActivity)
+//        }
     }
 
     override fun bindViewModel() {
@@ -79,12 +100,6 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
                     }
                 }
             }.launchIn(lifecycleScope)
-    }
-
-    override fun onBackPressed() {
-        ExitAppDialog {
-            super.onBackPressed()
-        }.show(supportFragmentManager)
     }
 
     private fun showDialogRequireUpdate(isRequire: Boolean) {

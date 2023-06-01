@@ -15,22 +15,21 @@ import fxc.dev.fox_ads.constants.BannerSize
  */
 
 class BannerAdHelper
-private constructor(
-    private var adsBannerId: String
-) {
+private constructor() {
 
     private val adRequest = AdRequest.Builder().build()
 
     fun addBanner(
         activity: Activity,
         viewParent: ViewGroup,
+        adUnitId: String,
         bannerSize: BannerSize = BannerSize.SMART,
         onAdLoaded: (() -> Unit)? = null,
-        onAdFailedToLoad: (() -> Unit)? = null
+        onAdFailedToLoad: (() -> Unit)? = null,
     ) {
         val adView = AdView(activity)
         adView.setAdSize(getRealAdSize(activity, bannerSize))
-        adView.adUnitId = adsBannerId
+        adView.adUnitId = adUnitId
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 super.onAdLoaded()
@@ -88,11 +87,9 @@ private constructor(
     companion object {
         @SuppressLint("StaticFieldLeak")
         private var instance: BannerAdHelper? = null
-        fun getInstance(
-            adsBannerId: String
-        ): BannerAdHelper {
+        fun getInstance(): BannerAdHelper {
             if (instance == null) {
-                instance = BannerAdHelper(adsBannerId)
+                instance = BannerAdHelper()
             }
             return instance!!
         }

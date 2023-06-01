@@ -70,4 +70,5 @@ fun DependencyHandlerScope.firebaseConfigDependencies() {
 fun DependencyHandlerScope.eventTrackingDependencies() {
     "implementation"(Dependencies.EventTracking.appsFlyer)
     "implementation"(Dependencies.EventTracking.adsjust)
+    "implementation"(Dependencies.EventTracking.installreferrer)
 }

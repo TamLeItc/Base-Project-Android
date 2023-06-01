@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ad_attribution">Ad</string>
-    <string name="exit_message">Are you sure you want to exit?</string>
+    <string name="exit_app_message">Are you sure you want to exit?</string>
     <string name="exit_app">Exit now</string>
     <string name="continue_use_app">Cancel</string>
 </resources>

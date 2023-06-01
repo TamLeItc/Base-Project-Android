@@ -14,6 +14,8 @@ import fxc.dev.base.core.BaseActivity
 import fxc.dev.common.extension.gone
 import fxc.dev.common.extension.safeClickListener
 import fxc.dev.fox_ads.constants.BannerSize
+import fxc.dev.fox_ads.interfaces.IAdsHelper
+import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.supervisorScope
@@ -25,7 +27,7 @@ import org.koin.core.component.inject
  *
  */
 
-class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity_demo) {
+class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity_demo), IAdsHelper {
 
     override val viewModel: DemoVM by viewModels()
     override val transition: Transition = Transition.SLIDE_LEFT
@@ -39,8 +41,7 @@ class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity
     }
 
     override fun initViews() {
-
-        loadBannerAds(parentView = binding.flAdView, adSize = BannerSize.SMART)
+        loadBannerAds()
     }
 
     override fun addListenerForViews() = binding.run {
@@ -56,6 +57,19 @@ class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity
                     binding.flAdView.gone()
                 }
             }.launchIn(lifecycleScope)
+    }
+
+    override fun loadBannerAds() {
+        if (AdsUtils.canShowAds()) {
+            adsHelper.addBanner(
+                activity = this,
+                viewParent = binding.flAdView,
+                adSize = BannerSize.SMART,
+                adUnitId = getString(R.string.ads_banner_id)
+            )
+        } else {
+            binding.flAdView.gone()
+        }
     }
 
 }

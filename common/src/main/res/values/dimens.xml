@@ -192,4 +192,6 @@
     <dimen name="_199dp">199dp</dimen>
     <dimen name="_200dp">200dp</dimen>
 
+    <dimen name="_256dp">256dp</dimen>
+
 </resources>

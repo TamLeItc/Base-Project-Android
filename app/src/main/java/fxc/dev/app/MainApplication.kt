@@ -60,7 +60,6 @@ class MainApplication : Application(), KoinComponent {
         adsHelper.initialize(
             delayShowInterstitialAd = resources.getInteger(R.integer.delay_show_interstitial_ad),
             adsOpenId = getString(R.string.ads_open_ads_id),
-            adsBannerId = getString(R.string.ads_banner_id),
             adsNativeId = getString(R.string.ads_native_id),
             adsInterstitialId = getString(R.string.ads_interstitial_id)
         )
