@@ -2,10 +2,12 @@ package fxc.dev.app.ui.main
 
 import androidx.lifecycle.viewModelScope
 import fxc.dev.app.BuildConfig
+import fxc.dev.app.constants.Constants
 import fxc.dev.base.core.BaseVM
 import fxc.dev.core.domain.model.AppConfig
 import fxc.dev.core.domain.repository.RemoteRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
 
 /**
  *
@@ -23,22 +26,17 @@ import kotlinx.coroutines.flow.retry
 
 class MainVM : BaseVM() {
 
-    private var _appConfigState = MutableStateFlow<AppConfigState>(AppConfigState.Init)
-    val appConfigState = _appConfigState.asStateFlow()
-
-    fun fetchAppConfigs() {
-        val url = "https://adsnetwork-api.romancenovelx.com/api/v1/configs/${BuildConfig.APPLICATION_ID}}"
-        remoteRepository.getAppConfigs(url)
-            .map { AppConfigState.Success(it) as AppConfigState }
-            .onStart { emit(AppConfigState.Start) }
-            .retry(retries = 2)
-            .catch { emit(AppConfigState.Failure) }
-            .onEach {
-                _appConfigState.emit(it)
-            }
-            .launchIn(viewModelScope)
-    }
-
+    val appConfigState = remoteRepository.getAppConfigs(Constants.appConfigUrl)
+        .map { AppConfigState.Success(it) as AppConfigState }
+        .onStart { emit(AppConfigState.Start) }
+        .retry(retries = 2)
+        .catch { emit(AppConfigState.Failure) }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            AppConfigState.Init
+        )
+    
 }
 
 sealed class AppConfigState {

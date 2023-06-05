@@ -20,6 +20,8 @@ import fxc.dev.app.databinding.ActivitySubscriptionBinding
 import fxc.dev.app.navigator.Navigator
 import fxc.dev.base.constants.Transition
 import fxc.dev.base.core.BaseActivity
+import fxc.dev.common.extension.flow.collectIn
+import fxc.dev.common.extension.flow.collectInViewLifecycle
 import fxc.dev.fox_purchase.model.IAPInfo
 import fxc.dev.common.extension.safeClickListener
 import fxc.dev.fox_purchase.model.IAPProduct
@@ -53,7 +55,7 @@ class PurchaseActivity :
         rvProductItems.run {
             setHasFixedSize(true)
             isNestedScrollingEnabled = false
-            adapter = IAPProductAdapter(this@PurchaseActivity, emptyList(), onItemClick)
+            adapter = IAPProductAdapter(this@PurchaseActivity, onItemClick)
         }
     }
 
@@ -82,32 +84,31 @@ class PurchaseActivity :
 
     override fun bindViewModel() {
         viewModel.infoPremiumState
-            .onEach {
+            .collectIn(this) {
                 addIAPInfoLayout(it)
-            }.launchIn(lifecycleScope)
+            }
 
         viewModel.purchaseState
-            .onEach {
+            .collectIn(this) {
                 when (it) {
                     PurchaseState.ConnectingPlayStore -> {
                         showMessageWaitingConnectPlayStore()
                     }
 
                     is PurchaseState.ListProductUpdated -> {
-                        (binding.rvProductItems.adapter as? IAPProductAdapter)?.updateData(it.data)
+                        (binding.rvProductItems.adapter as? IAPProductAdapter)?.submitList(it.data)
                     }
 
                     else -> {}
                 }
-            }.launchIn(lifecycleScope)
+            }
 
         viewModel.purchasedFlow
-            .onEach {
+            .collectIn(this) {
                 if (it) {
                     onBackTapped()
                 }
             }
-            .launchIn(lifecycleScope)
     }
 
     private fun addIAPInfoLayout(list: List<IAPInfo>) = binding.run {

@@ -24,11 +24,8 @@ import fxc.dev.fox_purchase.model.IAPProductType
 
 class IAPProductAdapter(
     private val context: Context,
-    data: List<IAPProduct>,
     private val listener: (IAPProduct, Int) -> Unit
-) : BaseListAdapter<IAPProduct>(
-    data
-) {
+) : BaseListAdapter<IAPProduct>() {
     override fun onCreateVH(parent: ViewGroup, viewType: Int): ItemVH {
         return ItemIapProductBinding.inflate(
             LayoutInflater.from(parent.context),

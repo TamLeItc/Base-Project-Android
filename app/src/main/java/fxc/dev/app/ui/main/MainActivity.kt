@@ -15,6 +15,7 @@ import fxc.dev.app.navigator.Navigator
 import fxc.dev.app.ui.demo.DemoActivity
 import fxc.dev.app.utils.AppUtils
 import fxc.dev.base.constants.Transition
+import fxc.dev.common.extension.flow.collectIn
 import fxc.dev.common.extension.safeClickListener
 import fxc.dev.common.widgets.dialog.alert.TAlertAction
 import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
@@ -65,8 +66,6 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
                 this,
                 onBackPressedCallback
             )
-
-            viewModel.fetchAppConfigs()
         } else {
             (supportFragmentManager.findFragmentByTag(ExitAppDialog.TAG) as? ExitAppDialog)?.listener = exitDialogListener
         }
@@ -90,7 +89,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
 
     override fun bindViewModel() {
         viewModel.appConfigState
-            .onEach {
+            .collectIn(this) {
                 when (it) {
                     AppConfigState.Init -> {}
 
@@ -111,7 +110,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
                         showLoading(false)
                     }
                 }
-            }.launchIn(lifecycleScope)
+            }
     }
 
     private fun showDialogRequireUpdate(isRequire: Boolean) {

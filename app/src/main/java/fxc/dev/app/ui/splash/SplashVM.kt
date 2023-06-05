@@ -3,7 +3,7 @@ package fxc.dev.app.ui.splash
 import android.os.Build
 import fxc.dev.app.helper.lifecycle.LifecycleManager
 import fxc.dev.base.core.BaseVM
-import fxc.dev.common.extension.interval
+import fxc.dev.common.extension.flow.interval
 import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
