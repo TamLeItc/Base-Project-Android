@@ -1,4 +1,4 @@
-package fxc.dev.fox_ads.view
+package fxc.dev.fox_ads.widget
 
 import android.content.Context
 import android.util.AttributeSet

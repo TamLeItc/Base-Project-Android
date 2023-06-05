@@ -1,4 +1,4 @@
-package fxc.dev.fox_ads.view
+package fxc.dev.fox_ads.widget.exit_dialog
 
 import android.app.Dialog
 import android.graphics.Color
@@ -23,9 +23,10 @@ import org.koin.android.ext.android.inject
  */
 
 class ExitAppDialog(
-    private val adUnitId: String,
-    private val onClickExitApp: (() -> Unit)
 ) : DialogFragment() {
+
+    var adUnitId: String = ""
+    var listener: ExitDialogListener? = null
 
     private val adsHelper: AdsHelper by inject()
 
@@ -85,14 +86,14 @@ class ExitAppDialog(
     }
 
     fun show(frgManager: FragmentManager) {
-        show(frgManager, "ExitAppDialog")
+        show(frgManager, TAG)
     }
 
 
     private fun initView() {
         binding.btnExit.setOnClickListener {
             dismiss()
-            onClickExitApp()
+            listener?.onExitClicked()
         }
 
         binding.btnCancel.setOnClickListener {
@@ -112,5 +113,9 @@ class ExitAppDialog(
                 adUnitId = adUnitId
             )
         }
+    }
+
+    companion object {
+        const val TAG = "ExitAppDialog"
     }
 }

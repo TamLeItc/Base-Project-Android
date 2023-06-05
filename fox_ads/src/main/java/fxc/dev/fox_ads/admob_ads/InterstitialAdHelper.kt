@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import fxc.dev.fox_ads.utils.AdsUtils
 import fxc.dev.fox_ads.utils.FullScreenLayoutParams
-import fxc.dev.fox_ads.view.LoadingView
+import fxc.dev.fox_ads.widget.LoadingView
 
 /**
  * Created by Tam Le on 18/02/2022.

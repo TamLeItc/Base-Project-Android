@@ -20,11 +20,11 @@ import fxc.dev.common.widgets.dialog.alert.TAlertAction
 import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
 import fxc.dev.common.widgets.dialog.alert.TAlertDialog
 import fxc.dev.core.domain.model.AppConfig
-import fxc.dev.fox_ads.view.ExitAppDialog
+import fxc.dev.fox_ads.widget.exit_dialog.ExitAppDialog
+import fxc.dev.fox_ads.widget.exit_dialog.ExitDialogListener
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.inject
-import kotlin.system.exitProcess
 
 /**
  *
@@ -39,12 +39,20 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
 
     private val navigator: Navigator by inject()
 
+    private val exitDialog = ExitAppDialog()
+
+    private val exitDialogListener = object: ExitDialogListener {
+        override fun onExitClicked() {
+            finishAffinity()
+        }
+    }
+
     private var onBackPressedCallback =  object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             adsHelper.showInterstitialAd(this@MainActivity) {
-                ExitAppDialog(getString(R.string.ads_banner_large_id)) {
-                    finishAffinity()
-                }.show(supportFragmentManager)
+                exitDialog.adUnitId = getString(R.string.ads_banner_large_id)
+                exitDialog.listener = exitDialogListener
+                exitDialog.show(supportFragmentManager)
             }
         }
     }
@@ -52,12 +60,16 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     override fun getVB(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
-        onBackPressedDispatcher.addCallback(
-            this,
-            onBackPressedCallback
-        )
+        if (savedInstanceState == null) {
+            onBackPressedDispatcher.addCallback(
+                this,
+                onBackPressedCallback
+            )
 
-        viewModel.fetchAppConfigs()
+            viewModel.fetchAppConfigs()
+        } else {
+            (supportFragmentManager.findFragmentByTag(ExitAppDialog.TAG) as? ExitAppDialog)?.listener = exitDialogListener
+        }
     }
 
     override fun initViews() = binding.run {
