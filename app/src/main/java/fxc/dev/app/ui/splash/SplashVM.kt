@@ -4,6 +4,7 @@ import android.os.Build
 import fxc.dev.app.helper.lifecycle.LifecycleManager
 import fxc.dev.base.core.BaseVM
 import fxc.dev.common.extension.flow.interval
+import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.admob_ads.AppOpenAdHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
@@ -12,7 +13,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
@@ -49,15 +52,11 @@ class SplashVM : BaseVM() {
             return
         }
 
-        mainScope.launch {
-            delay(1000)
-
-            if (AdsUtils.canShowAds()) {
-                fetchOpenAds()
-                startWaitingTimer()
-            } else {
-                _launchAppState.value = LauncherState.GoToMain
-            }
+        if (AdsUtils.canShowAds()) {
+            fetchOpenAds()
+            startWaitingTimer()
+        } else {
+            _launchAppState.value = LauncherState.GoToMain
         }
     }
 
@@ -66,7 +65,7 @@ class SplashVM : BaseVM() {
             _launchAppState.value = LauncherState.GoToMain
             onCleared()
         } else {
-            adsHelper.showAppOpenAd(
+            AdsHelper.getInstance().showAppOpenAd(
                 activity = LifecycleManager.getInstance().getCurrentActivity(),
                 enableShowAfterFetchAd = true,
                 listener = openAdsListener

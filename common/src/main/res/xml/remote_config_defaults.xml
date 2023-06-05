@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap>
     <entry>
-        <key>dji_drone_adjust_app_token</key>
+        <key>a260_adjust_app_token</key>
         <value>4j3oodi41af4</value>
     </entry>
 
     <entry>
-        <key>dji_drone_adjust_purchase_token</key>
+        <key>a260_adjust_purchase_token</key>
         <value>8b0tor</value>
     </entry>
 </defaultsMap>

@@ -106,7 +106,7 @@ class PurchaseActivity :
         viewModel.purchasedFlow
             .collectIn(this) {
                 if (it) {
-                    onBackTapped()
+                    finishAffinity()
                 }
             }
     }

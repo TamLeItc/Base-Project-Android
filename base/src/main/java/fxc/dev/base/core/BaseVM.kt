@@ -4,11 +4,10 @@ import androidx.lifecycle.ViewModel
 import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.core.domain.repository.LocalRepository
 import fxc.dev.core.domain.repository.RemoteRepository
-import fxc.dev.fox_ads.AdsHelperImp
+import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_purchase.manager.PurchaseManager
 import fxc.dev.fox_purchase.utils.PurchaseUtils
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -30,7 +29,6 @@ abstract class BaseVM protected constructor() : ViewModel(), CoroutineScope, Koi
         get() = dispatchers.io + SupervisorJob()
 
     protected val dispatchers: CoroutineDispatchers by inject()
-    protected val adsHelper: AdsHelperImp by inject()
     protected val remoteRepository: RemoteRepository by inject()
     protected val localRepository: LocalRepository by inject()
     protected val purchaseManager: PurchaseManager by inject()
@@ -44,7 +42,7 @@ abstract class BaseVM protected constructor() : ViewModel(), CoroutineScope, Koi
             .onStart { emit(PurchaseUtils.isPremium) }
 
     val nativeAdFlow =
-        adsHelper.getNativeAdFlow()
+        AdsHelper.getInstance().getNativeAdFlow()
             .combine(purchasedFlow) { ads, purchased ->
                 if (purchased) emptyList() else ads
             }

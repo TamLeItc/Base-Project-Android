@@ -1,7 +1,6 @@
 package fxc.dev.fox_ads.extensions
 
 import com.google.android.gms.ads.nativead.NativeAd
-import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 
 /**

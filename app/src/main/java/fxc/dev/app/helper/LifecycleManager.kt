@@ -27,8 +27,6 @@ import org.koin.core.component.inject
 class LifecycleManager : Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver,
     KoinComponent {
 
-    private val adsHelper: AdsHelper by inject()
-
     private var currentActivity: Activity? = null
 
     fun initialize() {
@@ -45,7 +43,7 @@ class LifecycleManager : Application.ActivityLifecycleCallbacks, DefaultLifecycl
         if (currentActivity is PurchaseActivity || currentActivity is WebViewActivity) {
             return
         }
-        adsHelper.showAppOpenAd(currentActivity, false)
+        AdsHelper.getInstance().showAppOpenAd(currentActivity, false)
     }
 
     override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}

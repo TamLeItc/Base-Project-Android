@@ -2,6 +2,8 @@ package fxc.dev.base.core
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
@@ -12,11 +14,14 @@ import fxc.dev.base.interfaces.IBaseComponent
 import fxc.dev.base.interfaces.IBaseView
 import fxc.dev.common.bus.BusProvider
 import fxc.dev.common.dispatcher.CoroutineDispatchers
+import fxc.dev.common.extension.gone
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.widgets.dialog.loading.LoadingDialog
 import fxc.dev.common.wrapper.AppContextWrapper
 import fxc.dev.fox_ads.AdsHelper
+import fxc.dev.fox_ads.constants.BannerSize
 import fxc.dev.fox_ads.interfaces.IAdsHelper
+import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.component.KoinComponent
@@ -31,7 +36,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity<VM : BaseVM, VB : ViewBinding>
 protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId),
-    IBaseView<VB>, IBaseComponent, CoroutineScope, KoinComponent {
+    IBaseView<VB>, IBaseComponent, IAdsHelper, CoroutineScope, KoinComponent {
 
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + SupervisorJob()
@@ -40,7 +45,6 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
     abstract val transition: Transition
 
     protected val dispatchers: CoroutineDispatchers by inject()
-    protected val adsHelper: AdsHelper by inject()
     protected val bus: BusProvider by inject()
     protected val appContextWrapper: AppContextWrapper by inject()
 
@@ -49,6 +53,12 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
     private val progressDialog = LoadingDialog()
     private var pendingShowProgress = false
     private var enterAnimationComplete = false
+
+    private var onBackPressedCallback =  object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            onBackTapped()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +73,10 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
         bus.register(this)
 
         applyTransitionIn(transition)
+        onBackPressedDispatcher.addCallback(
+            this,
+            onBackPressedCallback
+        )
     }
 
     override fun onDestroy() {
@@ -102,12 +116,21 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
         }
     }
 
-    override fun onBackTapped() {
-        onBackPressed()
+    override fun loadBannerAds(viewParent: FrameLayout, adUnitId: String) {
+        if (AdsUtils.canShowAds()) {
+            AdsHelper.getInstance().addBanner(
+                activity = this,
+                viewParent = viewParent,
+                adSize = BannerSize.SMART,
+                adUnitId = adUnitId
+            )
+        } else {
+            viewParent.gone()
+        }
     }
 
-    override fun onBackPressed() {
-        onBackPressedDispatcher.onBackPressed()
+    protected open fun onBackTapped() {
+        finish()
         applyTransitionOut(transition)
     }
 }

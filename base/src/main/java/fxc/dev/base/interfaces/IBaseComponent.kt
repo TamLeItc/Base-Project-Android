@@ -12,5 +12,4 @@ interface IBaseComponent {
     fun initialize(savedInstanceState: Bundle?)
     fun bindViewModel()
     fun showLoading(isShow: Boolean)
-    fun onBackTapped()
 }

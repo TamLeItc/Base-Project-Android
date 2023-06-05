@@ -26,7 +26,6 @@ import org.koin.core.logger.Level
 
 class MainApplication : Application(), KoinComponent {
 
-    private val adsHelper: AdsHelper by inject()
     private val purchaseManager: PurchaseManager by inject()
     private val eventTracking: EventTracking by inject()
 
@@ -57,7 +56,8 @@ class MainApplication : Application(), KoinComponent {
     }
 
     private fun initAdvertisement() {
-        adsHelper.initialize(
+        AdsHelper.getInstance().initialize(
+            application = this,
             delayShowInterstitialAd = resources.getInteger(R.integer.delay_show_interstitial_ad),
             adsOpenId = getString(R.string.ads_open_ads_id),
             adsNativeId = getString(R.string.ads_native_id),

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import fxc.dev.app.R
 import fxc.dev.base.core.BaseActivity
@@ -21,6 +22,7 @@ import fxc.dev.common.widgets.dialog.alert.TAlertAction
 import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
 import fxc.dev.common.widgets.dialog.alert.TAlertDialog
 import fxc.dev.core.domain.model.AppConfig
+import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.widget.exit_dialog.ExitAppDialog
 import fxc.dev.fox_ads.widget.exit_dialog.ExitDialogListener
 import kotlinx.coroutines.flow.launchIn
@@ -48,25 +50,10 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
         }
     }
 
-    private var onBackPressedCallback =  object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            adsHelper.showInterstitialAd(this@MainActivity) {
-                exitDialog.adUnitId = getString(R.string.ads_banner_large_id)
-                exitDialog.listener = exitDialogListener
-                exitDialog.show(supportFragmentManager)
-            }
-        }
-    }
-
     override fun getVB(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            onBackPressedDispatcher.addCallback(
-                this,
-                onBackPressedCallback
-            )
-        } else {
+        if (savedInstanceState != null) {
             (supportFragmentManager.findFragmentByTag(ExitAppDialog.TAG) as? ExitAppDialog)?.listener = exitDialogListener
         }
     }
@@ -89,7 +76,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
 
     override fun bindViewModel() {
         viewModel.appConfigState
-            .collectIn(this) {
+            .collectIn(this, Lifecycle.State.CREATED) {
                 when (it) {
                     AppConfigState.Init -> {}
 
@@ -111,6 +98,14 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
                     }
                 }
             }
+    }
+
+    override fun onBackTapped() {
+        AdsHelper.getInstance().showInterstitialAd(this@MainActivity) {
+            exitDialog.adUnitId = getString(R.string.ads_banner_large_id)
+            exitDialog.listener = exitDialogListener
+            exitDialog.show(supportFragmentManager)
+        }
     }
 
     private fun showDialogRequireUpdate(isRequire: Boolean) {

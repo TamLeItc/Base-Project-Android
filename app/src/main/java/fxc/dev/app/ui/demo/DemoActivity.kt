@@ -11,6 +11,7 @@ import fxc.dev.app.databinding.ActivityMainBinding
 import fxc.dev.app.navigator.Navigator
 import fxc.dev.base.constants.Transition
 import fxc.dev.base.core.BaseActivity
+import fxc.dev.common.extension.flow.collectIn
 import fxc.dev.common.extension.gone
 import fxc.dev.common.extension.safeClickListener
 import fxc.dev.fox_ads.constants.BannerSize
@@ -41,7 +42,7 @@ class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity
     }
 
     override fun initViews() {
-        loadBannerAds()
+        loadBannerAds(binding.flAdView, getString(R.string.ads_banner_id))
     }
 
     override fun addListenerForViews() = binding.run {
@@ -52,24 +53,11 @@ class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity
 
     override fun bindViewModel() {
         viewModel.purchasedFlow
-            .onEach {
+            .collectIn(this) {
                 if (it) {
                     binding.flAdView.gone()
                 }
-            }.launchIn(lifecycleScope)
-    }
-
-    override fun loadBannerAds() {
-        if (AdsUtils.canShowAds()) {
-            adsHelper.addBanner(
-                activity = this,
-                viewParent = binding.flAdView,
-                adSize = BannerSize.SMART,
-                adUnitId = getString(R.string.ads_banner_id)
-            )
-        } else {
-            binding.flAdView.gone()
-        }
+            }
     }
 
 }

@@ -11,7 +11,6 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
-import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.utils.AdsUtils
 import java.util.*
 
@@ -31,8 +30,6 @@ private constructor(
     }
 
     private val TAG = "AppOpenAdManager"
-
-    private var currentActivity: Activity? = null
 
     private var isShowingAd = false
 

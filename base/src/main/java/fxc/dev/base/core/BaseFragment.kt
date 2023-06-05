@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.markodevcic.peko.ActivityRotatingException
@@ -12,8 +13,13 @@ import fxc.dev.base.interfaces.IBaseComponent
 import fxc.dev.base.interfaces.IBaseView
 import fxc.dev.common.bus.BusProvider
 import fxc.dev.common.dispatcher.CoroutineDispatchers
+import fxc.dev.common.extension.gone
 import fxc.dev.common.utils.PrefUtils
 import fxc.dev.common.wrapper.AppContextWrapper
+import fxc.dev.fox_ads.AdsHelper
+import fxc.dev.fox_ads.constants.BannerSize
+import fxc.dev.fox_ads.interfaces.IAdsHelper
+import fxc.dev.fox_ads.utils.AdsUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -28,11 +34,11 @@ import kotlin.coroutines.CoroutineContext
  */
 
 abstract class BaseFragment<VM : BaseVM, VB : ViewBinding>
-protected constructor() : Fragment(), CoroutineScope, IBaseView<VB>, IBaseComponent,
-    KoinComponent {
+protected constructor() : Fragment(), IBaseView<VB>,
+    IAdsHelper, IBaseComponent, CoroutineScope, KoinComponent {
 
     override val coroutineContext: CoroutineContext
-        get() = dispatchers.main + SupervisorJob()
+    get() = dispatchers.main + SupervisorJob()
 
     abstract val viewModel: VM
 
@@ -70,6 +76,19 @@ protected constructor() : Fragment(), CoroutineScope, IBaseView<VB>, IBaseCompon
     override fun showLoading(isShow: Boolean) {
         (activity as? BaseActivity<*, *>)?.run {
             showLoading(isShow)
+        }
+    }
+
+    override fun loadBannerAds(viewParent: FrameLayout, adUnitId: String) {
+        if (AdsUtils.canShowAds()) {
+            AdsHelper.getInstance().addBanner(
+                activity = requireActivity(),
+                viewParent = viewParent,
+                adSize = BannerSize.SMART,
+                adUnitId = adUnitId
+            )
+        } else {
+            viewParent.gone()
         }
     }
 }

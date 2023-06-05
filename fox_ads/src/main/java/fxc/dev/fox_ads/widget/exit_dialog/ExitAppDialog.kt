@@ -28,8 +28,6 @@ class ExitAppDialog(
     var adUnitId: String = ""
     var listener: ExitDialogListener? = null
 
-    private val adsHelper: AdsHelper by inject()
-
     private lateinit var binding: DialogExitAppBinding
 
     override fun onStart() {
@@ -106,7 +104,7 @@ class ExitAppDialog(
             flAdView.gone()
             progressBar.gone()
         } else {
-            adsHelper.addBanner(
+            AdsHelper.getInstance().addBanner(
                 activity = requireActivity(),
                 viewParent = flAdView,
                 adSize = BannerSize.RECTANGLE,

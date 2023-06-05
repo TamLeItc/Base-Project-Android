@@ -29,14 +29,14 @@ class MainVM : BaseVM() {
     val appConfigState = remoteRepository.getAppConfigs(Constants.appConfigUrl)
         .map { AppConfigState.Success(it) as AppConfigState }
         .onStart { emit(AppConfigState.Start) }
-        .retry(retries = 2)
+        .retry(retries = 1)
         .catch { emit(AppConfigState.Failure) }
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
             AppConfigState.Init
         )
-    
+
 }
 
 sealed class AppConfigState {

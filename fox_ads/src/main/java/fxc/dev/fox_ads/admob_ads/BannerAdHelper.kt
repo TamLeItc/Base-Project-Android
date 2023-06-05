@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.ads.*
-import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.constants.BannerSize
 
 /**

@@ -42,7 +42,7 @@ class WebViewActivity : BaseActivity<WebViewVM, ActivityWebviewBinding>(R.layout
 
     override fun addListenerForViews() {
         binding.btnBack.safeClickListener {
-            onBackTapped()
+            finishAffinity()
         }
     }
 
