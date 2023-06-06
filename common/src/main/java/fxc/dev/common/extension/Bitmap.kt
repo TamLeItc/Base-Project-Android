@@ -1,4 +1,4 @@
-package tam.le.baseproject.extensions
+package fxc.dev.common.extension
 
 import android.graphics.Bitmap
 

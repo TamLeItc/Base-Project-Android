@@ -10,7 +10,7 @@
         android:id="@+id/cl_nav_top"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/primary"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -63,7 +63,7 @@
             android:layout_height="6dp"
             android:indeterminate="false"
             android:indeterminateOnly="false"
-            android:progressTint="@color/colorPrimary"
+            android:progressTint="@color/primary"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

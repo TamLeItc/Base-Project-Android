@@ -62,7 +62,7 @@
                         android:background="@drawable/bg_btn_dialog_exit"
                         android:text="@string/exit_app"
                         android:textAllCaps="false"
-                        android:textColor="@color/red"
+                        android:textColor="@color/adsExitApp"
                         android:textSize="16sp"
                         app:fontFamily="@font/roboto_medium" />
 
@@ -76,7 +76,7 @@
                         android:background="@drawable/bg_btn_dialog_exit"
                         android:text="@string/cancel"
                         android:textAllCaps="false"
-                        android:textColor="@color/green"
+                        android:textColor="@color/adsCancel"
                         android:textSize="16sp"
                         app:fontFamily="@font/roboto_medium" />
 

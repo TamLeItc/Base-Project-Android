@@ -17,6 +17,7 @@ import fxc.dev.app.ui.demo.DemoActivity
 import fxc.dev.app.utils.AppUtils
 import fxc.dev.base.constants.Transition
 import fxc.dev.common.extension.flow.collectIn
+import fxc.dev.common.extension.resourceColor
 import fxc.dev.common.extension.safeClickListener
 import fxc.dev.common.widgets.dialog.alert.TAlertAction
 import fxc.dev.common.widgets.dialog.alert.TAlertActionStyle
@@ -59,7 +60,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     }
 
     override fun initViews() = binding.run {
-
+        binding.btDemo.setTextColor(resourceColor(R.color.accent))
     }
 
     override fun addListenerForViews() = binding.run {

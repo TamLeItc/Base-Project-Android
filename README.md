@@ -7,7 +7,10 @@ Base Android Clean Architecture
     data
     fox_ads
     fox_purchase
+    fox_tracking
     buildSrc
+
+    Please read the README.md file in each module for more details
 
 ### What is code base?
     MVVM Clean Architecture

@@ -1,4 +1,4 @@
-package com.fxc.foxcode_framework.extension
+package fxc.dev.common.extension
 
 /**
  * Created by Thanh Quang on 8/24/21.

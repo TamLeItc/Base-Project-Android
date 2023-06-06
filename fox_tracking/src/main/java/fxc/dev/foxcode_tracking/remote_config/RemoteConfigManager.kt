@@ -1,11 +1,10 @@
 package fxc.dev.foxcode_tracking.remote_config
 
-import android.app.Application
 import android.util.Log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import fxc.dev.common.R
 import fxc.dev.dji_drone.common.remote_config.RemoteConfigKey
+import fxc.dev.fox_tracking.R
 
 /**
  *

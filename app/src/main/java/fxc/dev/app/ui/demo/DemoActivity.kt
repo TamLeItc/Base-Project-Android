@@ -28,7 +28,7 @@ import org.koin.core.component.inject
  *
  */
 
-class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity_demo), IAdsHelper {
+class DemoActivity : BaseActivity<DemoVM, ActivityDemoBinding>(R.layout.activity_demo) {
 
     override val viewModel: DemoVM by viewModels()
     override val transition: Transition = Transition.SLIDE_LEFT

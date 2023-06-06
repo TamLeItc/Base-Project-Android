@@ -3,27 +3,23 @@ package fxc.dev.app.ui.purchase
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import android.text.InputType
-import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import fxc.dev.app.R
-import fxc.dev.app.databinding.ActivitySubscriptionBinding
+import fxc.dev.app.databinding.ActivityPurchaseBinding
 import fxc.dev.app.navigator.Navigator
 import fxc.dev.base.constants.Transition
 import fxc.dev.base.core.BaseActivity
 import fxc.dev.common.extension.flow.collectIn
-import fxc.dev.common.extension.flow.collectInViewLifecycle
-import fxc.dev.fox_purchase.model.IAPInfo
 import fxc.dev.common.extension.safeClickListener
+import fxc.dev.fox_purchase.model.IAPInfo
 import fxc.dev.fox_purchase.model.IAPProduct
 import fxc.dev.fox_purchase.utils.PurchaseUtils
 import org.koin.core.component.inject
@@ -34,7 +30,7 @@ import org.koin.core.component.inject
  */
 
 class PurchaseActivity :
-    BaseActivity<PurchaseVM, ActivitySubscriptionBinding>(R.layout.activity_subscription) {
+    BaseActivity<PurchaseVM, ActivityPurchaseBinding>(R.layout.activity_purchase) {
 
     override val viewModel: PurchaseVM by viewModels()
     override val transition: Transition = Transition.SLIDE_UP
@@ -45,7 +41,7 @@ class PurchaseActivity :
         viewModel.productSelected(index)
     }
 
-    override fun getVB(inflater: LayoutInflater) = ActivitySubscriptionBinding.inflate(inflater)
+    override fun getVB(inflater: LayoutInflater) = ActivityPurchaseBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
         viewModel.fetchData()

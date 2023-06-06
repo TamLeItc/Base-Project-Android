@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardBackgroundColor="@color/adsBackground"
     app:cardCornerRadius="12dp"
     app:cardUseCompatPadding="true">
 
@@ -10,7 +10,7 @@
         android:id="@+id/nativeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/adsBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,7 +152,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="bottom|center"
                             android:textAllCaps="false"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/adsBackgroundButton"
                             android:textSize="12dp" />
                     </LinearLayout>
                 </LinearLayout>

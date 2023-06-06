@@ -30,7 +30,6 @@
 
     'style', // Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc).
 
-
 ### Git Flow
 
     Do not commit to `master`/ `develop`
