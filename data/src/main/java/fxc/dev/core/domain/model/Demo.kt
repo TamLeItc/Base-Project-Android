@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "Post")
-data class Post(
+data class Demo(
     @SerializedName("id")
     @PrimaryKey
     val id: Int,

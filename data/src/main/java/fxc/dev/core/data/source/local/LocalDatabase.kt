@@ -2,7 +2,7 @@ package fxc.dev.core.data.source.local
 
 import androidx.room.*
 import fxc.dev.core.data.source.local.converter.Converters
-import fxc.dev.core.domain.model.Post
+import fxc.dev.core.domain.model.Demo
 
 
 /**
@@ -13,7 +13,7 @@ import fxc.dev.core.domain.model.Post
 
 @Database(
     entities = [
-        Post::class
+        Demo::class
     ],
     version = 1,
     exportSchema = false

@@ -5,17 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import fxc.dev.app.R
-import fxc.dev.base.core.BaseActivity
 import fxc.dev.app.databinding.ActivityMainBinding
 import fxc.dev.app.navigator.Navigator
-import fxc.dev.app.ui.demo.DemoActivity
 import fxc.dev.app.utils.AppUtils
 import fxc.dev.base.constants.Transition
+import fxc.dev.base.core.BaseActivity
 import fxc.dev.common.extension.flow.collectIn
 import fxc.dev.common.extension.resourceColor
 import fxc.dev.common.extension.safeClickListener
@@ -26,8 +23,6 @@ import fxc.dev.core.domain.model.AppConfig
 import fxc.dev.fox_ads.AdsHelper
 import fxc.dev.fox_ads.widget.exit_dialog.ExitAppDialog
 import fxc.dev.fox_ads.widget.exit_dialog.ExitDialogListener
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.inject
 
 /**
@@ -60,19 +55,13 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     }
 
     override fun initViews() = binding.run {
-        binding.btDemo.setTextColor(resourceColor(R.color.accent))
+        binding.btPurchase.setTextColor(resourceColor(R.color.accent))
     }
 
     override fun addListenerForViews() = binding.run {
-        btDemo.safeClickListener {
-//            navigator.navigateToDemo(this@MainActivity)
-            val intent = Intent(this@MainActivity, DemoActivity::class.java)
-            startActivity(intent)
+        btPurchase.safeClickListener {
+            navigator.navigateToInApp(this@MainActivity)
         }
-
-//        btnInApp.safeClickListener {
-//            navigator.navigateToInApp(this@MainActivity)
-//        }
     }
 
     override fun bindViewModel() {

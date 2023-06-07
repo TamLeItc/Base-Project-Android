@@ -1,6 +1,5 @@
 package fxc.dev.core.domain.repository
 
-import fxc.dev.core.domain.model.Post
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -10,7 +9,5 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface LocalRepository {
-    fun getPost(): Flow<List<Post>>
-    fun insertPost(post: Post)
-    fun deletePost(post: Post)
+
 }
