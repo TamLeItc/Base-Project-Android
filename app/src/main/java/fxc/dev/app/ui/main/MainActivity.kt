@@ -55,12 +55,12 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
     }
 
     override fun initViews() = binding.run {
-        binding.btPurchase.setTextColor(resourceColor(R.color.accent))
+        binding.btDemo.setTextColor(resourceColor(R.color.accent))
     }
 
     override fun addListenerForViews() = binding.run {
-        btPurchase.safeClickListener {
-            navigator.navigateToInApp(this@MainActivity)
+        btDemo.safeClickListener {
+            navigator.navigateToDemoRoom(this@MainActivity)
         }
     }
 

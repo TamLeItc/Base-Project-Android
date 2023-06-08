@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Thanh Quang on 18/07/2022.
  */
-private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+private const val BASE_URL = "https://reqres.in/api/"
 private const val NETWORK_TIMEOUT = 30L
 
 val networkModule = module {

@@ -11,6 +11,9 @@ import android.app.Activity
 interface Navigator {
     fun navigateToMain(activity: Activity)
 
+    fun navigateToDemo(activity: Activity)
+    fun navigateToDemoRoom(activity: Activity)
+
     fun navigateToInApp(activity: Activity)
     fun navigateToPolicy(activity: Activity)
     fun navigateToTerm(activity: Activity)

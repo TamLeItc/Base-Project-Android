@@ -36,7 +36,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity<VM : BaseVM, VB : ViewBinding>
 protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(contentLayoutId),
-    IBaseView<VB>, IBaseComponent, IAdsHelper, CoroutineScope, KoinComponent {
+    IBaseComponent<VB>, IAdsHelper, CoroutineScope, KoinComponent {
 
     override val coroutineContext: CoroutineContext
         get() = dispatchers.main + SupervisorJob()
@@ -54,7 +54,7 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
     private var pendingShowProgress = false
     private var enterAnimationComplete = false
 
-    private var onBackPressedCallback =  object : OnBackPressedCallback(true) {
+    private var onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             onBackTapped()
         }

@@ -26,16 +26,23 @@ import kotlinx.coroutines.flow.stateIn
 
 class MainVM : BaseVM() {
 
-    val appConfigState = remoteRepository.getAppConfigs(Constants.appConfigUrl)
-        .map { AppConfigState.Success(it) as AppConfigState }
-        .onStart { emit(AppConfigState.Start) }
-        .retry(retries = 1)
-        .catch { emit(AppConfigState.Failure) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Lazily,
-            AppConfigState.Init
-        )
+    val appConfigState: StateFlow<AppConfigState>
+
+    init {
+        appConfigState = fetchAppConfig()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.Lazily,
+                AppConfigState.Init
+            )
+    }
+
+    private fun fetchAppConfig() =
+        remoteRepository.getAppConfigs(Constants.appConfigUrl)
+            .map { AppConfigState.Success(it) as AppConfigState }
+            .onStart { emit(AppConfigState.Start) }
+            .retry(retries = 1)
+            .catch { emit(AppConfigState.Failure) }
 
 }
 

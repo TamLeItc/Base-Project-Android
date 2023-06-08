@@ -3,6 +3,7 @@
     <style name="Theme.Base_mvvm" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/primaryDark</item>
+        <item name="colorPrimaryDark">@color/secondary</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/secondary</item>
     </style>
 </resources>

@@ -34,11 +34,11 @@ import kotlin.coroutines.CoroutineContext
  */
 
 abstract class BaseFragment<VM : BaseVM, VB : ViewBinding>
-protected constructor() : Fragment(), IBaseView<VB>,
-    IAdsHelper, IBaseComponent, CoroutineScope, KoinComponent {
+protected constructor() : Fragment(),
+    IAdsHelper, IBaseComponent<VB>, CoroutineScope, KoinComponent {
 
     override val coroutineContext: CoroutineContext
-    get() = dispatchers.main + SupervisorJob()
+        get() = dispatchers.main + SupervisorJob()
 
     abstract val viewModel: VM
 
