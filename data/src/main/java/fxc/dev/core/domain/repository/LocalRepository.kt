@@ -1,5 +1,10 @@
 package fxc.dev.core.domain.repository
 
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import fxc.dev.core.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -9,5 +14,9 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface LocalRepository {
+    fun insert(user: User): Flow<Unit>
 
+    fun getUsers(): Flow<List<User>>
+
+    fun delete(user: User): Flow<Unit>
 }

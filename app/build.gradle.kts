@@ -40,6 +40,8 @@ dependencies {
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
     implementation(Dependencies.AndroidX.work)
     implementation(Dependencies.AndroidX.appCompat)
     implementation(Dependencies.AndroidX.fragmentKtx)

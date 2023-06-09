@@ -1,9 +1,12 @@
 package fxc.dev.core.data.repository
 
+import fxc.dev.common.dispatcher.CoroutineDispatchers
 import fxc.dev.core.data.source.local.LocalDataDao
+import fxc.dev.core.domain.model.User
 import fxc.dev.core.domain.repository.LocalRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 /**
@@ -12,19 +15,21 @@ import kotlinx.coroutines.flow.flowOn
 
 class LocalRepositoryImp
 constructor(
+    private val dispatcher: CoroutineDispatchers,
     private val localDataDao: LocalDataDao
 ) : LocalRepository {
 
-//    override fun getPost(): Flow<List<Post>> {
-//        return localDataDao.getPosts()
-//            .flowOn(Dispatchers.IO)
-//    }
-//
-//    override fun insertPost(post: Post) {
-//        localDataDao.insert(post)
-//    }
-//
-//    override fun deletePost(post: Post) {
-//        localDataDao.deletePost(post)
-//    }
+    override fun insert(user: User): Flow<Unit> = flow {
+        emit(localDataDao.insert(user))
+    }.flowOn(dispatcher.io)
+
+    override fun getUsers(): Flow<List<User>> {
+        return localDataDao.getUsers()
+            .flowOn(dispatcher.io)
+    }
+
+    override fun delete(user: User): Flow<Unit> = flow {
+        emit(localDataDao.delete(user))
+    }.flowOn(dispatcher.io)
+
 }

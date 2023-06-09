@@ -3,6 +3,8 @@ package fxc.dev.app.navigator
 import android.app.Activity
 import android.content.Intent
 import fxc.dev.app.R
+import fxc.dev.app.ui.demo.DemoActivity
+import fxc.dev.app.ui.demo_room.DemoRoomActivity
 import fxc.dev.app.ui.main.MainActivity
 import fxc.dev.app.ui.purchase.PurchaseActivity
 import fxc.dev.app.ui.webview.WebViewActivity
@@ -22,6 +24,16 @@ class NavigatorImp : Navigator {
         )
         activity.startActivity(intent)
         activity.finish()
+    }
+
+    override fun navigateToDemo(activity: Activity) {
+        val intent = DemoActivity.getIntent(activity)
+        activity.startActivity(intent)
+    }
+
+    override fun navigateToDemoRoom(activity: Activity) {
+        val intent = DemoRoomActivity.getIntent(activity)
+        activity.startActivity(intent)
     }
 
     override fun navigateToInApp(activity: Activity) {

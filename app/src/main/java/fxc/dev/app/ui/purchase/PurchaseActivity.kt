@@ -37,10 +37,6 @@ class PurchaseActivity :
 
     private val navigator: Navigator by inject()
 
-    private val onItemClick: (IAPProduct, Int) -> Unit = { _, index ->
-        viewModel.productSelected(index)
-    }
-
     override fun getVB(inflater: LayoutInflater) = ActivityPurchaseBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
@@ -51,7 +47,7 @@ class PurchaseActivity :
         rvProductItems.run {
             setHasFixedSize(true)
             isNestedScrollingEnabled = false
-            adapter = IAPProductAdapter(this@PurchaseActivity, onItemClick)
+            adapter = IAPProductAdapter(this@PurchaseActivity, ::onProductSelected)
         }
     }
 
@@ -115,6 +111,10 @@ class PurchaseActivity :
             iapLayout.findViewById<TextView>(R.id.tv_title).text = getString(iapInfo.text)
             llAccess.addView(iapLayout)
         }
+    }
+
+    private fun onProductSelected(product: IAPProduct, index: Int) {
+        viewModel.productSelected(index)
     }
 
     private fun showMessageWaitingConnectPlayStore() {
