@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import fxc.dev.app.R
 import fxc.dev.app.databinding.ActivityMainBinding
 import fxc.dev.app.navigator.Navigator
+import fxc.dev.app.state.AppConfigState
 import fxc.dev.app.utils.AppUtils
 import fxc.dev.base.constants.Transition
 import fxc.dev.base.core.BaseActivity
@@ -60,7 +61,7 @@ class MainActivity : BaseActivity<MainVM, ActivityMainBinding>(R.layout.activity
 
     override fun addListenerForViews() = binding.run {
         btDemo.safeClickListener {
-            navigator.navigateToDemoRoom(this@MainActivity)
+            navigator.navigateToDemo(this@MainActivity)
         }
     }
 

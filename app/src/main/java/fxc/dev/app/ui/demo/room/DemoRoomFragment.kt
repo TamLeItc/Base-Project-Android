@@ -1,19 +1,18 @@
-package fxc.dev.app.ui.demo_room
+package fxc.dev.app.ui.demo.room
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import fxc.dev.app.R
 import fxc.dev.app.adapter.DemoAdapter
-import fxc.dev.app.databinding.ActivityDemoRoomBinding
+import fxc.dev.app.databinding.DemoRoomFragmentBinding
 import fxc.dev.app.navigator.Navigator
-import fxc.dev.base.constants.Transition
-import fxc.dev.base.core.BaseActivity
+import fxc.dev.app.state.LoadUserState
+import fxc.dev.app.state.SimpleHandleState
+import fxc.dev.base.core.BaseFragment
 import fxc.dev.common.extension.resourceColor
-import fxc.dev.common.extension.safeClickListener
 import fxc.dev.common.extension.setBackground
 import fxc.dev.common.extension.showShortToast
 import fxc.dev.core.domain.model.User
@@ -27,23 +26,25 @@ import org.koin.android.ext.android.inject
  *
  */
 
-class DemoRoomActivity :
-    BaseActivity<DemoRoomVM, ActivityDemoRoomBinding>(R.layout.activity_demo_room) {
+class DemoRoomFragment :
+    BaseFragment<DemoRoomVM, DemoRoomFragmentBinding>() {
     override val viewModel: DemoRoomVM by viewModels()
-    override val transition: Transition
-        get() = Transition.SLIDE_LEFT
 
     private val navigator: Navigator by inject()
 
-    private val demoAdapter = DemoAdapter(
-        context = this,
-        onClickItem = ::onUserClick
-    )
+    private var type = LIST
 
-    override fun getVB(inflater: LayoutInflater) = ActivityDemoRoomBinding.inflate(inflater)
+    private val demoAdapter by lazy {
+        DemoAdapter (
+            context = requireContext(),
+            onClickItem = ::onUserClick
+        )
+    }
+
+    override fun getVB(inflater: LayoutInflater) = DemoRoomFragmentBinding.inflate(inflater)
 
     override fun initialize(savedInstanceState: Bundle?) {
-
+        type = arguments?.getInt(TYPE) ?: 0
     }
 
     override fun initViews() {
@@ -54,14 +55,15 @@ class DemoRoomActivity :
         )
 
         binding.rvUser.run {
+            if (type == GRID) {
+                layoutManager = GridLayoutManager(requireContext(), 2)
+            }
             adapter = demoAdapter
         }
     }
 
     override fun addListenerForViews() {
-        binding.btAddMore.safeClickListener {
-            navigator.navigateToDemo(this)
-        }
+
     }
 
     override fun bindViewModel() {
@@ -79,10 +81,10 @@ class DemoRoomActivity :
         viewModel.handleUserState
             .onEach {
                 when(it){
-                    HandleUserState.Failure -> {
+                    SimpleHandleState.Failure -> {
                         showShortToast("Delete user failed")
                     }
-                    HandleUserState.Success -> {
+                    SimpleHandleState.Success -> {
                         showShortToast("Delete user successfully")
                     }
                 }
@@ -94,8 +96,8 @@ class DemoRoomActivity :
     }
 
     companion object {
-        fun getIntent(activity: Activity): Intent {
-            return Intent(activity, DemoRoomActivity::class.java)
-        }
+        const val TYPE = "type"
+        const val GRID = 1
+        const val LIST = 0
     }
 }

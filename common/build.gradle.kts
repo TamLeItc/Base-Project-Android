@@ -15,6 +15,9 @@ dependencies {
     viewBindingDependencies()
     firebaseConfigDependencies()
 
+    implementation(Dependencies.AndroidX.navigationFrgKtx)
+    implementation(Dependencies.AndroidX.navigationUiKtx)
+
     implementation(Dependencies.GoogleService.playCore)
 
     implementation(Dependencies.View.material)

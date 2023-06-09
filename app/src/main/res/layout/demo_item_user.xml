@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="12dp">
 
     <androidx.cardview.widget.CardView
@@ -21,8 +22,8 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_avatar"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="12dp"
                 app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="100dp"
@@ -44,7 +45,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/roboto_medium"
+                android:maxLines="2"
                 android:textColor="@color/textPrimary"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +60,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
+                android:ellipsize="middle"
                 android:fontFamily="@font/roboto_regular"
+                android:singleLine="true"
                 android:textColor="@color/textSecondary"
                 android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="@+id/cv_avatar"

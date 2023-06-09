@@ -2,12 +2,15 @@ package fxc.dev.app.navigator
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import fxc.dev.app.R
 import fxc.dev.app.ui.demo.DemoActivity
-import fxc.dev.app.ui.demo_room.DemoRoomActivity
+import fxc.dev.app.ui.demo.room.DemoRoomFragment
 import fxc.dev.app.ui.main.MainActivity
 import fxc.dev.app.ui.purchase.PurchaseActivity
 import fxc.dev.app.ui.webview.WebViewActivity
+import fxc.dev.common.extension.nav.safeNavigate
 import fxc.dev.fox_purchase.utils.PurchaseUtils
 
 /**
@@ -31,9 +34,10 @@ class NavigatorImp : Navigator {
         activity.startActivity(intent)
     }
 
-    override fun navigateToDemoRoom(activity: Activity) {
-        val intent = DemoRoomActivity.getIntent(activity)
-        activity.startActivity(intent)
+    override fun navigateToRoomDemo(fragment: Fragment, type: Int) {
+        val bundle = Bundle()
+        bundle.putInt(DemoRoomFragment.TYPE, type)
+        fragment.safeNavigate(R.id.action_to_room_fragment, bundle)
     }
 
     override fun navigateToInApp(activity: Activity) {

@@ -3,6 +3,7 @@ package fxc.dev.core.data.source.remote.dto
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import fxc.dev.core.domain.model.User
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -26,5 +27,9 @@ data class UserDTO(
     val total_pages: Int,
 
     @SerializedName("data")
-    val data: List<User>
-) : Parcelable
+    val data: List<User>,
+) : Parcelable {
+
+    @IgnoredOnParcel
+    var mergeList: List<Any> = emptyList()
+}

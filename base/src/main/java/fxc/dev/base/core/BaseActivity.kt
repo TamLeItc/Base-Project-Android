@@ -54,7 +54,7 @@ protected constructor(@LayoutRes contentLayoutId: Int) : AppCompatActivity(conte
     private var pendingShowProgress = false
     private var enterAnimationComplete = false
 
-    private var onBackPressedCallback = object : OnBackPressedCallback(true) {
+    protected var onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             onBackTapped()
         }

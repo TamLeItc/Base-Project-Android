@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/demo_grid_nav"
+    app:startDestination="@id/frg_grid">
+
+    <fragment
+        android:id="@+id/frg_grid"
+        android:name="fxc.dev.app.ui.demo.grid.DemoGridFragment"
+        android:label="GridFragment"
+        tools:layout="@layout/demo_grid_fragment" >
+
+        <action
+            android:id="@+id/action_to_room_fragment"
+            app:destination="@id/frg_room"
+            app:enterAnim="@anim/slide_right_in"
+            app:exitAnim="@anim/short_slide_left_out"
+            app:popEnterAnim="@anim/short_slide_left_in"
+            app:popExitAnim="@anim/slide_right_out" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/frg_room"
+        android:name="fxc.dev.app.ui.demo.room.DemoRoomFragment"
+        android:label="RoomFragment"
+        tools:layout="@layout/demo_room_fragment" />
+</navigation>

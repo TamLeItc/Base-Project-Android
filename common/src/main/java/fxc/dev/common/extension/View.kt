@@ -59,15 +59,6 @@ fun View.safeClickListener(safeClickListener: (view: View) -> Unit) {
     }
 }
 
-fun View.setBackground(startColor: Int, endColor: Int, cornerRadius: Float) {
-    val gradientDrawable = GradientDrawable(
-        GradientDrawable.Orientation.TOP_BOTTOM,
-        intArrayOf(startColor, endColor)
-    );
-    gradientDrawable.cornerRadius = cornerRadius;
-    background = gradientDrawable
-}
-
 object SingleClick {
     private const val MIN_CLICK_INTERVAL = 200
     private var sLastClickTime: Long = 0

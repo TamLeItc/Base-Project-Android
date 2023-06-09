@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import fxc.dev.app.R
-import fxc.dev.app.databinding.ItemUserBinding
+import fxc.dev.app.databinding.DemoItemUserBinding
 import fxc.dev.base.constants.NativeAdType
 import fxc.dev.base.core.BaseListAdapter
 import fxc.dev.base.core.ItemVH
@@ -26,7 +26,7 @@ class DemoAdapter(
 ) : BaseListAdapter<Any>(adType = NativeAdType.SMALL, onLoadMore = onLoadMore) {
 
     override fun onCreateVH(parent: ViewGroup, viewType: Int): ItemVH {
-        return ItemUserBinding.inflate(
+        return DemoItemUserBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -35,7 +35,7 @@ class DemoAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindVH(holder: ItemVH, position: Int) {
-        val binding = holder.binding as ItemUserBinding
+        val binding = holder.binding as DemoItemUserBinding
         val user = getItem(position) as User
 
         binding.tvFullName.text = user.getFullName()
