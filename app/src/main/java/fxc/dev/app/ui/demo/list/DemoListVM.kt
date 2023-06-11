@@ -7,6 +7,7 @@ import fxc.dev.base.core.BaseVM
 import fxc.dev.core.domain.model.User
 import fxc.dev.fox_ads.extensions.mergeWithNativeAds
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,10 +16,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.take
 
 /**
  *
@@ -26,7 +29,7 @@ import kotlinx.coroutines.flow.onStart
  *
  */
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class DemoListVM : BaseVM() {
 
     private var _userState: MutableStateFlow<FetchApiState<List<Any>>> = MutableStateFlow(FetchApiState.Init)
@@ -42,7 +45,8 @@ class DemoListVM : BaseVM() {
     private val users = mutableListOf<User>()
 
     init {
-        _loadUserTriggerS
+        startTriggerS
+            .flatMapMerge { _loadUserTriggerS }
             .flatMapLatest {
                 handleFetchUsers(page = it)
             }
@@ -56,7 +60,7 @@ class DemoListVM : BaseVM() {
             .onEach(_handleUserState::tryEmit)
             .launchIn(viewModelScope)
 
-        fetchUsers(0)
+        startTriggerS.tryEmit(Unit)
     }
 
     fun fetchUsers(page: Int) = _loadUserTriggerS.tryEmit(page)
@@ -69,12 +73,18 @@ class DemoListVM : BaseVM() {
                 state.mergeList = state.data.mergeWithNativeAds(ads)
                 return@combine state
             }
+            .onEach {
+                if (page == 0) {
+                    users.clear()
+                }
+            }
             .map {
                 users.addAll(it.data)
                 FetchApiState.Success(
                     data = users,
                     enableLoadMore = it.page < it.total_pages
-                ) as FetchApiState<List<Any>>
+                )
+                as FetchApiState<List<Any>>
             }
             .onStart { if (page == 0) emit(FetchApiState.Start) }
             .catch { emit(FetchApiState.Failure(it)) }

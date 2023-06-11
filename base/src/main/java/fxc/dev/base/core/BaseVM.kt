@@ -10,6 +10,7 @@ import fxc.dev.fox_purchase.utils.PurchaseUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -34,6 +35,8 @@ abstract class BaseVM protected constructor() : ViewModel(), CoroutineScope, Koi
     protected val purchaseManager: PurchaseManager by inject()
 
     protected val TAG = this.javaClass.simpleName
+
+    protected val startTriggerS = MutableSharedFlow<Unit>(extraBufferCapacity = Int.MAX_VALUE)
 
     val purchasedFlow: Flow<Boolean> =
         purchaseManager.getPurchasedListState()

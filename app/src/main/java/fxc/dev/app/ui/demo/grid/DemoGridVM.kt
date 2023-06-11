@@ -6,6 +6,7 @@ import fxc.dev.app.state.SimpleHandleState
 import fxc.dev.base.core.BaseVM
 import fxc.dev.core.domain.model.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,10 +14,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.take
 
 /**
  *
@@ -24,10 +27,11 @@ import kotlinx.coroutines.flow.onStart
  *
  */
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class DemoGridVM : BaseVM() {
 
-    private var _userState: MutableStateFlow<FetchApiState<List<Any>>> = MutableStateFlow(FetchApiState.Init)
+    private var _userState: MutableStateFlow<FetchApiState<List<Any>>> =
+        MutableStateFlow(FetchApiState.Init)
     val userState = _userState.asStateFlow()
 
     private var _handleUserState: MutableSharedFlow<SimpleHandleState> =
@@ -40,7 +44,8 @@ class DemoGridVM : BaseVM() {
     private val users = mutableListOf<User>()
 
     init {
-        _loadUserTriggerS
+        startTriggerS
+            .flatMapMerge { _loadUserTriggerS }
             .flatMapLatest {
                 handleFetchUsers(page = it)
             }
@@ -54,7 +59,7 @@ class DemoGridVM : BaseVM() {
             .onEach(_handleUserState::tryEmit)
             .launchIn(viewModelScope)
 
-        fetchUsers(0)
+        startTriggerS.tryEmit(Unit)
     }
 
     fun fetchUsers(page: Int) = _loadUserTriggerS.tryEmit(page)
@@ -63,8 +68,13 @@ class DemoGridVM : BaseVM() {
 
     private fun handleFetchUsers(page: Int): Flow<FetchApiState<List<Any>>> =
         remoteRepository.getUsers(page)
-            .map {
+            .onEach {
+                if (page == 0) {
+                    users.clear()
+                }
                 users.addAll(it.data)
+            }
+            .map {
                 FetchApiState.Success(
                     data = users,
                     enableLoadMore = it.page < it.total_pages

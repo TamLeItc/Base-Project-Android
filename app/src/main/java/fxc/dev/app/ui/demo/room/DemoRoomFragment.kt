@@ -60,6 +60,8 @@ class DemoRoomFragment :
             }
             adapter = demoAdapter
         }
+
+        loadBannerAds(binding.flAdView, getString(R.string.ads_banner_id))
     }
 
     override fun addListenerForViews() {

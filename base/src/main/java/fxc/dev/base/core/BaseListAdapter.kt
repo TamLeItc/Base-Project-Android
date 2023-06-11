@@ -12,6 +12,11 @@ import com.google.android.gms.ads.nativead.NativeAd
 import fxc.dev.base.R
 import fxc.dev.base.constants.NativeAdType
 import fxc.dev.fox_ads.admob_ads.NativeAdUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 /**
  *
@@ -63,7 +68,10 @@ abstract class BaseListAdapter<Item : Any>(
             }
 
             is LoadMoreVH -> {
-                onLoadMore?.invoke()
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(500)
+                    onLoadMore?.invoke()
+                }
             }
 
             else -> {

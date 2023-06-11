@@ -69,6 +69,8 @@ class DemoListFragment: BaseFragment<DemoListVM, DemoListFragmentBinding>() {
         binding.btRoom.safeClickListener {
             navigator.navigateToRoomDemo(this, DemoRoomFragment.LIST)
         }
+
+        loadBannerAds(binding.flAdView, getString(R.string.ads_banner_id))
     }
 
     override fun bindViewModel() {
